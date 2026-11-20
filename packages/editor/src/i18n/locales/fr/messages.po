@@ -21213,6 +21213,14 @@ msgstr "Haut (3,0 m)"
 msgid "node.ceiling.panel.high90"
 msgstr "Haut (9'0\")"
 
+# English: "High ({length})"
+# Source-Hash: e173a72c5252bba0
+# Review: required
+#: packages/nodes/src/ceiling/panel.tsx
+#, fuzzy
+msgid "node.ceiling.panel.highInches"
+msgstr "Haut ({length})"
+
 # Source-Hash: 34504c6ca6445e76
 # Review: required
 # AI-Provider: claude-code
@@ -21263,6 +21271,14 @@ msgstr "Bas (2,4 m)"
 msgid "node.ceiling.panel.low80"
 msgstr "Bas (8'0\")"
 
+# English: "Low ({length})"
+# Source-Hash: f24aa4746fdda0fe
+# Review: required
+#: packages/nodes/src/ceiling/panel.tsx
+#, fuzzy
+msgid "node.ceiling.panel.lowInches"
+msgstr "Bas ({length})"
+
 # Source-Hash: bd02c614454fbd2b
 # Review: required
 # AI-Provider: claude-code
@@ -21302,6 +21318,14 @@ msgstr "Standard (2,5 m)"
 #, fuzzy
 msgid "node.ceiling.panel.standard86"
 msgstr "Standard (8'6\")"
+
+# English: "Standard ({length})"
+# Source-Hash: 263f132e7884d397
+# Review: required
+#: packages/nodes/src/ceiling/panel.tsx
+#, fuzzy
+msgid "node.ceiling.panel.standardInches"
+msgstr "Standard ({length})"
 
 # Source-Hash: 065626498678bc5d
 # Review: required
@@ -32448,6 +32472,14 @@ msgstr "Standard (2\")"
 msgid "node.slab.panel.standard5cm"
 msgstr "Standard (5 cm)"
 
+# English: "Standard ({length})"
+# Source-Hash: 263f132e7884d397
+# Review: required
+#: packages/nodes/src/slab/panel.tsx
+#, fuzzy
+msgid "node.slab.panel.standardInches"
+msgstr "Standard ({length})"
+
 # Source-Hash: cff0e2e72cfab157
 # Review: required
 # AI-Provider: claude-code
@@ -32467,6 +32499,14 @@ msgstr "Encaissé (15 cm)"
 #, fuzzy
 msgid "node.slab.panel.sunken6"
 msgstr "Encaissé (6\")"
+
+# English: "Sunken ({length})"
+# Source-Hash: 5789eb79886327fb
+# Review: required
+#: packages/nodes/src/slab/panel.tsx
+#, fuzzy
+msgid "node.slab.panel.sunkenInches"
+msgstr "Décaissée ({length})"
 
 # Source-Hash: 78a454b7ac7a3cd9
 # Review: required
@@ -32498,6 +32538,14 @@ msgstr "Épais (15 cm)"
 msgid "node.slab.panel.thick6"
 msgstr "Épais (6\")"
 
+# English: "Thick ({length})"
+# Source-Hash: ad485f398ab2035b
+# Review: required
+#: packages/nodes/src/slab/panel.tsx
+#, fuzzy
+msgid "node.slab.panel.thickInches"
+msgstr "Épaisse ({length})"
+
 # Source-Hash: fdbb503f0941bd56
 # Review: required
 # AI-Provider: claude-code
@@ -32527,6 +32575,14 @@ msgstr "Mince (1\")"
 #, fuzzy
 msgid "node.slab.panel.thin2cm"
 msgstr "Mince (2 cm)"
+
+# English: "Thin ({length})"
+# Source-Hash: 99e0965cea42dad5
+# Review: required
+#: packages/nodes/src/slab/panel.tsx
+#, fuzzy
+msgid "node.slab.panel.thinInches"
+msgstr "Mince ({length})"
 
 # Source-Hash: 065ffaaf64ab479d
 # Review: required

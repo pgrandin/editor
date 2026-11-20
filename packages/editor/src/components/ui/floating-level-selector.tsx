@@ -58,6 +58,7 @@ import {
   formatNumber,
   roofLevelOrderBreach,
   servesAsRoofLevel,
+  formatLinearMeasurement,
   useLocale,
   usePascalI18n,
 } from '@pascal-app/core'
@@ -301,7 +302,7 @@ function LevelRow({
                   <ActionButton
                     className="h-7 px-2"
                     key={preset.label}
-                    label={displayUnit === 'in' ? `${toDisplay(preset.height).toFixed(0)}in` : preset.label}
+                    label={displayUnit === 'in' ? formatLinearMeasurement(preset.height, 'inches', undefined, locale) : preset.label}
                     onClick={() => updateNode(level.id, { height: preset.height })}
                   />
                 ))}

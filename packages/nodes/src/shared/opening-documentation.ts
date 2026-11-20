@@ -3,6 +3,7 @@ import type {
   DoorNode,
   FloorplanGeometry,
   LevelNode,
+  LinearUnit,
   WallNode,
   WindowNode,
 } from '@pascal-app/core'
@@ -17,11 +18,7 @@ import {
   wallSupportForNodes,
   withFloorplanGeometryMetadata,
 } from '@pascal-app/core'
-import {
-  type ConstructionLengthProfile,
-  type ConstructionLinearUnit,
-  formatConstructionLength,
-} from './construction-length'
+import { type ConstructionLengthProfile, formatConstructionLength } from './construction-length'
 
 type OpeningNode = DoorNode | WindowNode
 type OpeningKind = OpeningNode['type']
@@ -87,7 +84,7 @@ export function buildDoorFloorplanSchedule(args: {
   siblings: ReadonlyArray<DoorNode>
   nodes: Readonly<Record<string, AnyNode>>
   levelId: string
-  unit: ConstructionLinearUnit
+  unit: LinearUnit
   profile?: ConstructionLengthProfile
   drafting?: boolean
 }): FloorplanSchedule | null {
@@ -136,7 +133,7 @@ export function buildWindowFloorplanSchedule(args: {
   siblings: ReadonlyArray<WindowNode>
   nodes: Readonly<Record<string, AnyNode>>
   levelId: string
-  unit: ConstructionLinearUnit
+  unit: LinearUnit
   profile?: ConstructionLengthProfile
   drafting?: boolean
 }): FloorplanSchedule | null {
@@ -558,7 +555,7 @@ function hexagonPoints(
 function formatSize(
   width: number,
   height: number,
-  unit: ConstructionLinearUnit,
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
 ): string {
   return `${formatConstructionLength(width, unit, profile)} x ${formatConstructionLength(height, unit, profile)}`
@@ -566,7 +563,7 @@ function formatSize(
 
 function formatRoughOpening(
   opening: OpeningNode,
-  unit: ConstructionLinearUnit,
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
 ): string {
   if (opening.roughOpeningWidth === undefined || opening.roughOpeningHeight === undefined) {

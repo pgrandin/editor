@@ -355,6 +355,21 @@ describe('buildConstructionDimensionFloorplan', () => {
     expect(dimensionSegments(geometry)[0]?.text).toBe('2000')
   })
 
+  test('uses the plan locale for a decimal-inch dimension', () => {
+    const node = ConstructionDimensionNode.parse({
+      anchors: [
+        [0, 0, 0],
+        [314.5 * 0.0254, 0, 0],
+      ],
+    })
+    const ctx = context({})
+    const geometry = buildConstructionDimensionFloorplan(node, {
+      ...ctx,
+      viewState: { ...ctx.viewState!, unit: 'inches', locale: 'fr' },
+    })
+    expect(dimensionSegments(geometry)[0]?.text).toBe('314,5in')
+  })
+
   test('shows witness and baseline handles only while selected', () => {
     const node = ConstructionDimensionNode.parse({})
     const idle = buildConstructionDimensionFloorplan(node, context())

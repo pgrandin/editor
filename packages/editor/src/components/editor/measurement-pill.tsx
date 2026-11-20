@@ -1,6 +1,11 @@
 'use client'
 
-import { formatLinearMeasurement, type LinearUnit, type MetricNotation } from '@pascal-app/core'
+import {
+  formatLinearMeasurement,
+  type LinearUnit,
+  type MetricNotation,
+  useLocale,
+} from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { type ForwardedRef, Fragment, forwardRef } from 'react'
 
@@ -10,8 +15,9 @@ export function formatMeasurement(
   value: number,
   unit: LinearUnit,
   metricNotation: MetricNotation = 'meters',
+  locale?: string,
 ): string {
-  return formatLinearMeasurement(value, unit, metricNotation)
+  return formatLinearMeasurement(value, unit, metricNotation, locale)
 }
 
 type MeasurePart = 'height' | 'length' | 'thickness'
@@ -49,6 +55,7 @@ export function DimensionPill({
   primary?: string
   primaryRef?: ForwardedRef<HTMLSpanElement>
 }) {
+  const locale = useLocale()
   const metricNotation = useViewer((state) => state.metricNotation)
 
   return (
@@ -59,8 +66,9 @@ export function DimensionPill({
               Math.abs(part.value),
               unit,
               metricNotation,
+              locale,
             )}`
-          : formatMeasurement(part.value, unit, metricNotation)
+          : formatMeasurement(part.value, unit, metricNotation, locale)
         return (
           <Fragment key={part.key}>
             {index > 0 ? (

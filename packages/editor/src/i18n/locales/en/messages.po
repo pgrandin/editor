@@ -8523,6 +8523,10 @@ msgid "node.ceiling.panel.high90"
 msgstr "High (9'0\")"
 
 #: packages/nodes/src/ceiling/panel.tsx
+msgid "node.ceiling.panel.highInches"
+msgstr "High ({length})"
+
+#: packages/nodes/src/ceiling/panel.tsx
 msgid "node.ceiling.panel.holes"
 msgstr "Holes"
 
@@ -8543,6 +8547,10 @@ msgid "node.ceiling.panel.low80"
 msgstr "Low (8'0\")"
 
 #: packages/nodes/src/ceiling/panel.tsx
+msgid "node.ceiling.panel.lowInches"
+msgstr "Low ({length})"
+
+#: packages/nodes/src/ceiling/panel.tsx
 msgid "node.ceiling.panel.move"
 msgstr "Move"
 
@@ -8557,6 +8565,10 @@ msgstr "Standard (2.5m)"
 #: packages/nodes/src/ceiling/panel.tsx
 msgid "node.ceiling.panel.standard86"
 msgstr "Standard (8'6\")"
+
+#: packages/nodes/src/ceiling/panel.tsx
+msgid "node.ceiling.panel.standardInches"
+msgstr "Standard ({length})"
 
 #: packages/nodes/src/ceiling/panel.tsx
 msgid "node.ceiling.panel.tallerThanLevel"
@@ -13026,12 +13038,20 @@ msgid "node.slab.panel.standard5cm"
 msgstr "Standard (5cm)"
 
 #: packages/nodes/src/slab/panel.tsx
+msgid "node.slab.panel.standardInches"
+msgstr "Standard ({length})"
+
+#: packages/nodes/src/slab/panel.tsx
 msgid "node.slab.panel.sunken15cm"
 msgstr "Sunken (15cm)"
 
 #: packages/nodes/src/slab/panel.tsx
 msgid "node.slab.panel.sunken6"
 msgstr "Sunken (6\")"
+
+#: packages/nodes/src/slab/panel.tsx
+msgid "node.slab.panel.sunkenInches"
+msgstr "Sunken ({length})"
 
 #: packages/nodes/src/slab/panel.tsx
 msgid "node.slab.panel.surface"
@@ -13046,6 +13066,10 @@ msgid "node.slab.panel.thick6"
 msgstr "Thick (6\")"
 
 #: packages/nodes/src/slab/panel.tsx
+msgid "node.slab.panel.thickInches"
+msgstr "Thick ({length})"
+
+#: packages/nodes/src/slab/panel.tsx
 msgid "node.slab.panel.thickness"
 msgstr "Thickness"
 
@@ -13056,6 +13080,10 @@ msgstr "Thin (1\")"
 #: packages/nodes/src/slab/panel.tsx
 msgid "node.slab.panel.thin2cm"
 msgstr "Thin (2cm)"
+
+#: packages/nodes/src/slab/panel.tsx
+msgid "node.slab.panel.thinInches"
+msgstr "Thin ({length})"
 
 #: packages/nodes/src/i18n/definition-messages.ts
 msgid "node.solarPanel.description"

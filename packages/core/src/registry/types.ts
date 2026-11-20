@@ -94,6 +94,7 @@ export type GeometryContext = {
    */
   viewState?: {
     selected: boolean
+    locale?: string
     unit: LinearUnit
     /** Marquee or programmatic highlight — shows selected chrome without keyboard focus. */
     highlighted: boolean

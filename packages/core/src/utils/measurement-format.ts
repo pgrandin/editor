@@ -1,4 +1,5 @@
 import { formatNumber, parseLocalizedNumber } from '../i18n/format'
+import { getLocale } from '../i18n/registry'
 import type { MeasurementPoint } from '../schema'
 
 export type LinearUnit = 'metric' | 'imperial' | 'inches'
@@ -183,12 +184,13 @@ export function formatLinearMeasurement(
   meters: number,
   unit: LinearUnit,
   metricNotation: MetricNotation = 'meters',
+  locale = getLocale(),
 ): string {
   if (!Number.isFinite(meters)) return '--'
 
   if (unit === 'inches') {
     const inches = Number(metersToLinearUnit(meters, unit).toFixed(4))
-    return `${inches}in`
+    return `${formatNumber(inches || 0, { max: 4, locale })}in`
   }
 
   const absoluteMeters = Math.abs(meters)

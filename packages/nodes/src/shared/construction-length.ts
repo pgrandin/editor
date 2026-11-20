@@ -3,25 +3,25 @@ import { formatLinearMeasurement, type LinearUnit } from '@pascal-app/core'
 const INCHES_PER_METER = 1 / 0.0254
 const IMPERIAL_FRACTION_DENOMINATOR = 16
 
-export type ConstructionLinearUnit = LinearUnit
 export type ConstructionLengthProfile = 'editor' | 'document'
 export type ConstructionMetricNotation = 'meters' | 'millimeters'
 export type ConstructionImperialPrecision = '1' | '1/2' | '1/4' | '1/8' | '1/16'
 
 export type ConstructionLengthFormatOptions = {
+  locale?: string
   metricNotation?: ConstructionMetricNotation
   imperialPrecision?: ConstructionImperialPrecision
 }
 
 export function formatConstructionLength(
   meters: number,
-  unit: ConstructionLinearUnit,
+  unit: LinearUnit,
   profile: ConstructionLengthProfile = 'editor',
   options: ConstructionLengthFormatOptions = {},
 ): string {
   if (!Number.isFinite(meters)) return '--'
 
-  if (unit === 'inches') return formatLinearMeasurement(meters, unit)
+  if (unit === 'inches') return formatLinearMeasurement(meters, unit, undefined, options.locale)
   if (unit === 'metric') {
     if (profile === 'document' || options.metricNotation === 'millimeters') {
       return `${Math.round(meters * 1000)}`

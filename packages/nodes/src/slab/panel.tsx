@@ -291,18 +291,34 @@ export function SlabPanel() {
       ? [
           {
             label: i18n._({ id: 'node.slab.panel.sunken6', message: 'Sunken (6")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.slab.panel.sunkenInches',
+              message: 'Sunken ({length})',
+            },
             elevation: -0.1524,
           },
           {
             label: i18n._({ id: 'node.slab.panel.thin1', message: 'Thin (1")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.slab.panel.thinInches',
+              message: 'Thin ({length})',
+            },
             elevation: 0.0254,
           },
           {
             label: i18n._({ id: 'node.slab.panel.standard2', message: 'Standard (2")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.slab.panel.standardInches',
+              message: 'Standard ({length})',
+            },
             elevation: 0.0508,
           },
           {
             label: i18n._({ id: 'node.slab.panel.thick6', message: 'Thick (6")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.slab.panel.thickInches',
+              message: 'Thick ({length})',
+            },
             elevation: 0.1524,
           },
         ]
@@ -428,7 +444,19 @@ export function SlabPanel() {
             <ActionButton
               key={preset.label}
               label={
-                unit === 'inches' ? formatLinearMeasurement(preset.elevation, unit) : preset.label
+                unit === 'inches' && 'inchesLabel' in preset && preset.inchesLabel
+                  ? i18n._({
+                      ...preset.inchesLabel,
+                      values: {
+                        length: formatLinearMeasurement(
+                          preset.elevation,
+                          unit,
+                          undefined,
+                          i18n.getLocale(),
+                        ),
+                      },
+                    })
+                  : preset.label
               }
               onClick={() => handleElevationPreset(preset.elevation)}
             />

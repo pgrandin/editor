@@ -7,6 +7,10 @@ describe('formatConstructionLength profiles', () => {
       expect(formatConstructionLength(314.5 * 0.0254, 'inches', profile)).toBe('314.5in')
       expect(formatConstructionLength(-0.0625 * 0.0254, 'inches', profile)).toBe('-0.0625in')
       expect(formatConstructionLength(0, 'inches', profile)).toBe('0in')
+      expect(formatConstructionLength(-1e-9, 'inches', profile)).toBe('0in')
+      expect(formatConstructionLength(314.5 * 0.0254, 'inches', profile, { locale: 'fr' })).toBe(
+        '314,5in',
+      )
     }
   })
 

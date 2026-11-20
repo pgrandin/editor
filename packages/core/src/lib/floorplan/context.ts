@@ -190,6 +190,7 @@ export function readFloorplanMetricNotationOverride(
 export type FloorplanViewState = {
   automaticDimensions?: boolean
   selected: boolean
+  locale?: string
   unit: LinearUnit
   metricNotation?: 'meters' | 'millimeters'
   purpose?: 'edit' | 'document'
@@ -253,6 +254,7 @@ export function buildFloorplanContext(
     viewState: viewState.palette
       ? {
           selected: viewState.selected,
+          locale: viewState.locale,
           unit: viewState.unit,
           highlighted: viewState.highlighted,
           hovered: viewState.hovered,

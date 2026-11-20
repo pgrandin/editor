@@ -1,3 +1,4 @@
+import type { LinearUnit } from '@pascal-app/core'
 import {
   type AnyNode,
   type ColumnNode,
@@ -20,7 +21,6 @@ import {
 } from '../shared/construction-dimension-standards'
 import {
   type ConstructionLengthProfile,
-  type ConstructionLinearUnit,
   formatConstructionLength,
 } from '../shared/construction-length'
 import { buildDimensionStringGeometry } from '../shared/dimension-string'
@@ -393,7 +393,7 @@ function interiorWallClearSpan(
 
 export function renderPlannedConstructionDimensions(
   planned: readonly PlannedConstructionDimension[],
-  unit: ConstructionLinearUnit,
+  unit: LinearUnit,
   stroke?: string,
   profile: ConstructionLengthProfile = 'editor',
   standard: ConstructionDimensionDrawingStandard = DEFAULT_CONSTRUCTION_DIMENSION_STANDARD,
@@ -468,7 +468,7 @@ export function buildCurvedWallConstructionDimensions(
     standard = DEFAULT_CONSTRUCTION_DIMENSION_STANDARD,
     siblings = [],
   }: {
-    unit: ConstructionLinearUnit
+    unit: LinearUnit
     stroke?: string
     profile?: ConstructionLengthProfile
     standard?: ConstructionDimensionDrawingStandard
@@ -532,7 +532,7 @@ export function buildWallConstructionDimensions(
     profile = 'editor',
     standard = DEFAULT_CONSTRUCTION_DIMENSION_STANDARD,
   }: {
-    unit: ConstructionLinearUnit
+    unit: LinearUnit
     stroke?: string
     profile?: ConstructionLengthProfile
     standard?: ConstructionDimensionDrawingStandard
@@ -614,7 +614,7 @@ function dimension(
   end: FloorplanPoint,
   offsetNormal: FloorplanPoint,
   offsetDistance: number,
-  unit: ConstructionLinearUnit,
+  unit: LinearUnit,
   stroke?: string,
   dimensionStart?: FloorplanPoint,
   dimensionEnd?: FloorplanPoint,
@@ -654,7 +654,7 @@ function dimension(
 function constructionDimensionText(
   start: FloorplanPoint,
   end: FloorplanPoint,
-  unit: ConstructionLinearUnit,
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   standard: ConstructionDimensionDrawingStandard,
   prefix?: string,
@@ -666,6 +666,7 @@ function constructionDimensionText(
     {
       imperialPrecision: standard.imperialPrecision,
       metricNotation: standard.metricNotation,
+      locale: standard.locale,
     },
   )
   return prefix ? `${prefix} ${lengthText}` : lengthText
