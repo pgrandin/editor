@@ -3,6 +3,7 @@
 import {
   getRailingWallConfig,
   getRailingWallHeight,
+  type LinearUnit,
   RAILING_GUARD_HEIGHT,
   RAILING_GUARD_HEIGHT_TALL,
   RAILING_SPHERE_LIMIT,
@@ -32,7 +33,7 @@ const MAX_LENGTH = 1000
 
 type Props = {
   node: WallNode
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   onUpdate: (patch: Partial<WallNode>) => void
   onPreview: (patch: Partial<WallNode>) => void
   onCommit: () => void
@@ -48,7 +49,7 @@ export function RailingWallPanel({ node, unit, onUpdate, onPreview, onCommit, on
   const i18n = usePascalI18n()
   const config = getRailingWallConfig(node)
   const height = getRailingWallHeight(node)
-  const imperial = unit === 'imperial'
+  const imperial = unit !== 'metric'
   const toShown = (meters: number) => (imperial ? meters / INCH : meters)
   const toMeters = (shown: number) => (imperial ? shown * INCH : shown)
   const update = (patch: Partial<RailingWallConfig>, preview = false) =>

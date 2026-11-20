@@ -662,6 +662,10 @@ msgid "app.viewerToolbar.idOd"
 msgstr "ID + OD"
 
 #: apps/editor/components/viewer-toolbar.tsx
+msgid "app.viewerToolbar.inches"
+msgstr "Inches"
+
+#: apps/editor/components/viewer-toolbar.tsx
 msgid "app.viewerToolbar.inside"
 msgstr "Inside"
 

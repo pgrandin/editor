@@ -256,7 +256,7 @@ export function CeilingPanel() {
   // Clean preset values per display system; imperial stores exact meters
   // for 8'0" / 8'6" / 9'0" ceilings.
   const heightPresets =
-    unit === 'imperial'
+    unit !== 'metric'
       ? [
           {
             label: i18n._({ id: 'node.ceiling.panel.low80', message: 'Low (8\'0")' }),
@@ -341,7 +341,9 @@ export function CeilingPanel() {
                 className={fits ? undefined : 'cursor-not-allowed opacity-40'}
                 disabled={!fits}
                 key={preset.label}
-                label={preset.label}
+                label={
+                  unit === 'inches' ? formatLinearMeasurement(preset.height, unit) : preset.label
+                }
                 onClick={() => handleHeightChange(preset.height)}
                 title={
                   fits

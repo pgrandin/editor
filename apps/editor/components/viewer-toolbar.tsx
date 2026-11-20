@@ -617,9 +617,11 @@ function DisplayMenu() {
               <span className="ml-auto text-muted-foreground text-xs">
                 {unit === 'imperial'
                   ? i18n._({ id: 'app.viewerToolbar.feetInches', message: 'Feet & inches' })
-                  : metricNotation === 'millimeters'
-                    ? i18n._({ id: 'app.viewerToolbar.millimeters', message: 'Millimeters' })
-                    : i18n._({ id: 'app.viewerToolbar.meters', message: 'Meters' })}
+                  : unit === 'inches'
+                    ? i18n._({ id: 'app.viewerToolbar.inches', message: 'Inches' })
+                    : metricNotation === 'millimeters'
+                      ? i18n._({ id: 'app.viewerToolbar.millimeters', message: 'Millimeters' })
+                      : i18n._({ id: 'app.viewerToolbar.meters', message: 'Meters' })}
               </span>
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent className={SUBMENU_CONTENT_CLASS}>
@@ -642,6 +644,13 @@ function DisplayMenu() {
                 {unit === 'metric' && metricNotation === 'millimeters' ? (
                   <Check className="ml-auto h-4 w-4 text-foreground" />
                 ) : null}
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setUnit('inches')}>
+                <span className="flex h-4 w-4 items-center justify-center font-semibold text-[10px]">
+                  in
+                </span>
+                <span>{i18n._({ id: 'app.viewerToolbar.inches', message: 'Inches' })}</span>
+                {unit === 'inches' ? <Check className="ml-auto h-4 w-4 text-foreground" /> : null}
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setUnit('imperial')}>
                 <span className="flex h-4 w-4 items-center justify-center font-semibold text-[10px]">

@@ -5,6 +5,7 @@ import {
   type CeilingFraming,
   type CeilingNode,
   ceilingBuildUpThickness,
+  type LinearUnit,
   LUMBER_DEPTH,
   type MessageDescriptor,
   usePascalI18n,
@@ -61,7 +62,7 @@ export function CeilingBuildUpSection({
 }: {
   node: CeilingNode
   onUpdate: (patch: Partial<CeilingNode>) => void
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const i18n = usePascalI18n()
   const buildUp = node.buildUp

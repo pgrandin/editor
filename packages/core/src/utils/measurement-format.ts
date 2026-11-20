@@ -1,7 +1,7 @@
 import { formatNumber, parseLocalizedNumber } from '../i18n/format'
 import type { MeasurementPoint } from '../schema'
 
-export type LinearUnit = 'metric' | 'imperial'
+export type LinearUnit = 'metric' | 'imperial' | 'inches'
 export type MetricNotation = 'meters' | 'millimeters'
 
 type MeasurementAngleArcOptions = {
@@ -89,6 +89,7 @@ export function buildMeasurementAngleArcPoints(
   })
 }
 
+const METERS_PER_INCH = 0.0254
 const METERS_PER_FOOT = 0.3048
 const FEET_PER_METER = 1 / METERS_PER_FOOT
 
@@ -98,10 +99,12 @@ type LinearControlValueOptions = {
 }
 
 export function metersToLinearUnit(meters: number, unit: LinearUnit): number {
+  if (unit === 'inches') return meters / METERS_PER_INCH
   return unit === 'imperial' ? meters * FEET_PER_METER : meters
 }
 
 export function linearUnitToMeters(value: number, unit: LinearUnit): number {
+  if (unit === 'inches') return value * METERS_PER_INCH
   return unit === 'imperial' ? value * METERS_PER_FOOT : value
 }
 
@@ -127,6 +130,7 @@ export function linearControlValueToMeters(
 }
 
 export function getLinearUnitLabel(unit: LinearUnit): string {
+  if (unit === 'inches') return 'in'
   return unit === 'imperial' ? 'ft' : 'm'
 }
 
@@ -134,11 +138,11 @@ const SQUARE_FEET_PER_SQUARE_METER = FEET_PER_METER * FEET_PER_METER
 const CUBIC_FEET_PER_CUBIC_METER = SQUARE_FEET_PER_SQUARE_METER * FEET_PER_METER
 
 export function squareMetersToAreaUnit(squareMeters: number, unit: LinearUnit): number {
-  return unit === 'imperial' ? squareMeters * SQUARE_FEET_PER_SQUARE_METER : squareMeters
+  return unit !== 'metric' ? squareMeters * SQUARE_FEET_PER_SQUARE_METER : squareMeters
 }
 
 export function getAreaUnitLabel(unit: LinearUnit): string {
-  return unit === 'imperial' ? 'ft²' : 'm²'
+  return unit !== 'metric' ? 'ft²' : 'm²'
 }
 
 export function formatAreaLabel(
@@ -155,11 +159,11 @@ export function formatAreaLabel(
 }
 
 export function cubicMetersToVolumeUnit(cubicMeters: number, unit: LinearUnit): number {
-  return unit === 'imperial' ? cubicMeters * CUBIC_FEET_PER_CUBIC_METER : cubicMeters
+  return unit !== 'metric' ? cubicMeters * CUBIC_FEET_PER_CUBIC_METER : cubicMeters
 }
 
 export function getVolumeUnitLabel(unit: LinearUnit): string {
-  return unit === 'imperial' ? 'ft³' : 'm³'
+  return unit !== 'metric' ? 'ft³' : 'm³'
 }
 
 export function formatVolumeLabel(
@@ -181,6 +185,11 @@ export function formatLinearMeasurement(
   metricNotation: MetricNotation = 'meters',
 ): string {
   if (!Number.isFinite(meters)) return '--'
+
+  if (unit === 'inches') {
+    const inches = Number(metersToLinearUnit(meters, unit).toFixed(4))
+    return `${inches}in`
+  }
 
   const absoluteMeters = Math.abs(meters)
 

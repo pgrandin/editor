@@ -2,6 +2,8 @@ import type { AnyNode, AnyNodeId, DoorNode, WallNode, WindowNode, ZoneNode } fro
 import {
   deriveZoneQuantityReport,
   type FloorplanSchedule,
+  formatLinearMeasurement,
+  type LinearUnit,
   resolveHostedOpeningFrameDepth,
   resolveMarkDetail,
 } from '@pascal-app/core'
@@ -24,7 +26,7 @@ import { collectFloorplanSchedules } from './floorplan-export'
 const SQUARE_FEET_PER_SQUARE_METER = 10.76391041671
 const INCHES_PER_METER = 1 / 0.0254
 
-export type ScheduleUnit = 'metric' | 'imperial'
+export type ScheduleUnit = LinearUnit
 
 export type OpeningScheduleRow = {
   id: string
@@ -280,6 +282,7 @@ export function floorplanSchedules(
 
 export function formatScheduleLength(metres: number, unit: ScheduleUnit): string {
   if (!Number.isFinite(metres)) return '—'
+  if (unit === 'inches') return formatLinearMeasurement(metres, unit)
   if (unit === 'metric') return `${Math.round(metres * 1000)}`
   const denominator = 16
   const sign = metres < 0 ? '-' : ''

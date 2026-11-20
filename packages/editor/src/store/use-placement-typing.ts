@@ -1,4 +1,4 @@
-import type { MessageDescriptor } from '@pascal-app/core'
+import type { LinearUnit, MessageDescriptor } from '@pascal-app/core'
 import { create } from 'zustand'
 
 /**
@@ -176,11 +176,11 @@ export function routePlacementTypingKey(
 
 /** Parse options for a typed length: a bare number is read in the display unit. */
 export function placementTypingLengthOptions(
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: 'meters' | 'millimeters',
 ) {
   return {
-    bareUnit: unit === 'imperial' ? 'in' : metricNotation === 'millimeters' ? 'mm' : 'm',
-    system: unit === 'imperial' ? ('imperial' as const) : ('metric' as const),
+    bareUnit: unit !== 'metric' ? 'in' : metricNotation === 'millimeters' ? 'mm' : 'm',
+    system: unit !== 'metric' ? ('imperial' as const) : ('metric' as const),
   }
 }

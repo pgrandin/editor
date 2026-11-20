@@ -36,6 +36,7 @@ export function openWallEndKey(end: Pick<OpenWallEnd, 'wallId' | 'end'>): string
 /** Short distances read in the unit a person would say out loud: "4 cm", "8 mm", `1.5"`. */
 export function formatOpenWallEndDistance(meters: number, unit: LinearUnit): string {
   const value = Math.abs(meters)
+  if (unit === 'inches') return formatLinearMeasurement(value, unit)
   if (unit === 'imperial') {
     const inches = value / 0.0254
     if (inches >= 12) return formatLinearMeasurement(value, unit)

@@ -14,6 +14,7 @@ import {
   getMaxWallCurveOffset,
   getWallAssemblyPreset,
   getWallCurveLength,
+  type LinearUnit,
   linearControlValueToMeters,
   type MessageDescriptor,
   metersToLinearUnit,
@@ -355,7 +356,7 @@ export default function WallPanel() {
             )
           }
           precision={2}
-          step={unit === 'imperial' ? 0.1 : 0.01}
+          step={unit !== 'metric' ? 0.1 : 0.01}
           unit={unitLabel}
           value={displayLength}
         />
@@ -727,7 +728,7 @@ function WallTrimSection({
   title: string
   trimKey: WallTrimKey
   trimValue: NonNullable<WallNode['skirting']>
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   unitLabel: string
   wallHeightMeters: number
 }) {
@@ -874,7 +875,7 @@ function ThicknessInput({
 }: {
   metres: number
   onCommit: (metres: number) => void
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const [draft, setDraft] = useState<string | null>(null)
   const display = draft ?? formatLayerThickness(metres, unit)
@@ -964,7 +965,7 @@ function WallAssemblySection({
 }: {
   node: WallNode
   onUpdate: (updates: Partial<WallNode>) => void
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const i18n = usePascalI18n()
   const stack = node.assembly

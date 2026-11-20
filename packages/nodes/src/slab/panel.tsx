@@ -4,6 +4,7 @@ import {
   type AnyNode,
   formatAreaLabel,
   formatFixed,
+  formatLinearMeasurement,
   getAreaUnitLabel,
   isDerivedNode,
   MIN_SLAB_THICKNESS,
@@ -286,7 +287,7 @@ export function SlabPanel() {
   // Clean preset values per display system; imperial stores exact meters
   // for whole-inch offsets.
   const elevationPresets =
-    unit === 'imperial'
+    unit !== 'metric'
       ? [
           {
             label: i18n._({ id: 'node.slab.panel.sunken6', message: 'Sunken (6")' }),
@@ -426,7 +427,9 @@ export function SlabPanel() {
           {elevationPresets.map((preset) => (
             <ActionButton
               key={preset.label}
-              label={preset.label}
+              label={
+                unit === 'inches' ? formatLinearMeasurement(preset.elevation, unit) : preset.label
+              }
               onClick={() => handleElevationPreset(preset.elevation)}
             />
           ))}

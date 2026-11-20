@@ -10,10 +10,12 @@ import {
   createSceneApi,
   DEFAULT_ANGLE_STEP,
   formatAngleRadians,
+  formatLinearMeasurement,
   type HandleDescriptor,
   type HandlePortal,
   type LatchHandle,
   type LinearResizeHandle,
+  type LinearUnit,
   nodeRegistry,
   type RadialResizeHandle,
   sceneRegistry,
@@ -167,7 +169,8 @@ function guideDecorationRadius(decoration: unknown, node: AnyNode, sceneApi: Sce
 
 // Mirrors the formatter used by wall / fence measurement labels so all
 // in-world dimension chips read consistently.
-function formatDimension(value: number, unit: 'metric' | 'imperial'): string {
+function formatDimension(value: number, unit: LinearUnit): string {
+  if (unit === 'inches') return formatLinearMeasurement(value, unit)
   if (unit === 'imperial') {
     const feet = value * 3.280_84
     const wholeFeet = Math.floor(feet)

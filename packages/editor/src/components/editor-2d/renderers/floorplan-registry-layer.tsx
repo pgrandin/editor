@@ -23,6 +23,7 @@ import {
   isNodeKindEnabled,
   isRegistryMovable,
   kindsWithFloorplanScope,
+  type LinearUnit,
   type LiveNodeOverrides,
   type LiveTransform,
   nodeRegistry,
@@ -410,7 +411,7 @@ type NodeDeps = {
   automaticDimensions: boolean
   node: AnyNode
   live: LiveTransform | undefined
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   metricNotation: 'meters' | 'millimeters'
   wallDimensionFaces?: FloorplanWallDimensionFaces
   selected: boolean
@@ -2058,7 +2059,7 @@ type FloorplanRegistryEntryProps = {
   setMovingNode: ReturnType<typeof useEditor.getState>['setMovingNode']
   setMovingNodeOrigin: ReturnType<typeof useEditor.getState>['setMovingNodeOrigin']
   siblingEpoch: number
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   metricNotation: 'meters' | 'millimeters'
   wallDimensionFaces: FloorplanWallDimensionFaces
   visibilityRootId: AnyNodeId | undefined
@@ -2363,7 +2364,7 @@ type BuildFloorplanEntryGeometryArgs = {
   unitFocus?: FloorplanUnitFocus
   selected: boolean
   siblingEpoch: number
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   metricNotation: 'meters' | 'millimeters'
   wallDimensionFaces?: FloorplanWallDimensionFaces
   visibilityRootId: AnyNodeId | undefined

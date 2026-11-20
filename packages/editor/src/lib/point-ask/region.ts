@@ -1,4 +1,4 @@
-import { formatLinearMeasurement } from '@pascal-app/core'
+import { formatLinearMeasurement, type LinearUnit } from '@pascal-app/core'
 import type { Rect, ScreenPoint } from './types'
 
 // A region is a view, not a selection (spec 2.3, "A region is a view, not a selection"): a
@@ -74,12 +74,9 @@ export function regionSizeMetres(
 }
 
 /** "4.2 × 3.1 m", or feet and inches as the editor writes them. */
-export function formatRegionSize(
-  size: { width: number; depth: number },
-  unit: 'metric' | 'imperial',
-): string {
-  if (unit === 'imperial')
-    return `${formatLinearMeasurement(size.width, 'imperial')} × ${formatLinearMeasurement(size.depth, 'imperial')}`
+export function formatRegionSize(size: { width: number; depth: number }, unit: LinearUnit): string {
+  if (unit !== 'metric')
+    return `${formatLinearMeasurement(size.width, unit)} × ${formatLinearMeasurement(size.depth, unit)}`
   return `${size.width.toFixed(1)} × ${size.depth.toFixed(1)} m`
 }
 

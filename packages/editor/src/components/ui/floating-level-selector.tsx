@@ -301,7 +301,7 @@ function LevelRow({
                   <ActionButton
                     className="h-7 px-2"
                     key={preset.label}
-                    label={preset.label}
+                    label={displayUnit === 'in' ? `${toDisplay(preset.height).toFixed(0)}in` : preset.label}
                     onClick={() => updateNode(level.id, { height: preset.height })}
                   />
                 ))}

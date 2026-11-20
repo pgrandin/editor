@@ -1,13 +1,18 @@
 'use client'
 
 import type { QuickMeasurementMetric, QuickMeasurementReport } from '@pascal-app/core'
-import { formatAreaLabel, formatLinearMeasurement, formatVolumeLabel } from '@pascal-app/core'
+import {
+  formatAreaLabel,
+  formatLinearMeasurement,
+  formatVolumeLabel,
+  type LinearUnit,
+} from '@pascal-app/core'
 import { Crosshair, MapPin } from 'lucide-react'
 import { memo } from 'react'
 
 function formatMetric(
   metric: QuickMeasurementMetric,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: 'meters' | 'millimeters',
 ): string {
   if (metric.quantity === 'area') return formatAreaLabel(metric.value, unit, 2)
@@ -22,7 +27,7 @@ export const QuickMeasurementCard = memo(function QuickMeasurementCard({
   lensState,
 }: {
   report: QuickMeasurementReport
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   metricNotation: 'meters' | 'millimeters'
   lensState: 'live' | 'pinned'
 }) {

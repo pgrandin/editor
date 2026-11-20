@@ -4,6 +4,7 @@ import {
   type AnyNodeId,
   clampRoomFloorHandle,
   formatLinearMeasurement,
+  type LinearUnit,
   type Point,
   roomDrawnFloor,
   roomFloorElevation,
@@ -536,7 +537,7 @@ function DimensionValueInput({
   dimension: RoomDimension
   initial: string
   onClose: () => void
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   wallId: string
 }) {
   const i18n = usePascalI18n()

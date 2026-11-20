@@ -11,6 +11,7 @@ import {
   floorplanLocalToWorldPoint,
   type GeometryContext,
   isNodeKindEnabled,
+  type LinearUnit,
   nodeRegistry,
   useLocale,
   usePascalI18n,
@@ -193,7 +194,7 @@ function buildFloorplanGeometries(
   nodes: Record<string, AnyNode>,
   installedPlugins: readonly string[] | undefined,
   level: AnyNode,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: 'meters' | 'millimeters',
 ): FloorplanRenderEntry[] {
   const building = level.parentId ? nodes[level.parentId] : undefined

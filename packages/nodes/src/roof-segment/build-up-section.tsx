@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  type LinearUnit,
   LUMBER_DEPTH,
   type MessageDescriptor,
   type PascalI18n,
@@ -179,7 +180,7 @@ function DrawnLayers({
 }: {
   node: RoofSegmentNode
   onUpdate: (patch: Partial<RoofSegmentNode>) => void
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const i18n = usePascalI18n()
   const drawn = roofBuildUpOfDeck(node.deckThickness)
@@ -238,7 +239,7 @@ export function RoofBuildUpSection({
   /** Present when the plane's roof has other planes to take the same layers. */
   onApplyToRoof?: () => void
   onUpdate: (patch: Partial<RoofSegmentNode>) => void
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const i18n = usePascalI18n()
   const buildUp = node.buildUp

@@ -205,7 +205,7 @@ export default function WindowPanel() {
       !node.corner &&
       resolveOpeningCasingHost(node, s.nodes) !== null,
   )
-  const imperial = useViewer((s) => s.unit) === 'imperial'
+  const imperial = useViewer((s) => s.unit) !== 'metric'
 
   // Stable handler refs ("Custom panels" in wiki/architecture/node-definitions.md).
   // Without them, the 15+ SliderControls in this panel would loop on drag.

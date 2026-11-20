@@ -22,6 +22,8 @@ describe('parseDimensionInput', () => {
   })
 
   test('bare numbers follow the unit system', () => {
+    expect(parseDimensionInput('314.5', 'inches')).toBeCloseTo(314.5 * 0.0254, 12)
+    expect(parseDimensionInput('314.5in', 'inches')).toBeCloseTo(314.5 * 0.0254, 12)
     expect(parseDimensionInput('12.5', 'metric')).toBeCloseTo(12.5, 9)
     expect(parseDimensionInput('12.5', 'imperial')).toBeCloseTo(12.5 * FOOT, 9)
   })

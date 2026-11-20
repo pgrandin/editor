@@ -31,7 +31,7 @@ export function OpeningDepthPositionControl({
   const thickness = useScene((state) =>
     node.roofSegmentId ? null : (resolveOpeningCasingHost(node, state.nodes)?.thickness ?? null),
   )
-  const imperial = useViewer((state) => state.unit) === 'imperial'
+  const imperial = useViewer((state) => state.unit) !== 'metric'
   if (thickness === null) return null
 
   const offset = node.position[2] ?? 0

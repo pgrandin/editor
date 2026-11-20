@@ -1,6 +1,6 @@
 'use client'
 
-import { formatLinearMeasurement, type MetricNotation } from '@pascal-app/core'
+import { formatLinearMeasurement, type LinearUnit, type MetricNotation } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { type ForwardedRef, Fragment, forwardRef } from 'react'
 
@@ -8,7 +8,7 @@ import { type ForwardedRef, Fragment, forwardRef } from 'react'
 // feet/inches. Shared by every measurement readout so they read the same.
 export function formatMeasurement(
   value: number,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: MetricNotation = 'meters',
 ): string {
   return formatLinearMeasurement(value, unit, metricNotation)
@@ -45,7 +45,7 @@ export function DimensionPill({
   primaryRef,
 }: {
   parts: DimensionPillPart[]
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   primary?: string
   primaryRef?: ForwardedRef<HTMLSpanElement>
 }) {
@@ -103,7 +103,7 @@ export const MeasurementPill = forwardRef(function MeasurementPill(
     height: number
     length: number
     thickness: number
-    unit: 'metric' | 'imperial'
+    unit: LinearUnit
     primary: MeasurePart
   },
   primaryRef: ForwardedRef<HTMLSpanElement>,

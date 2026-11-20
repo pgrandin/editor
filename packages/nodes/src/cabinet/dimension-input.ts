@@ -1,3 +1,4 @@
+import type { LinearUnit } from '@pascal-app/core'
 import { parseMeasurement } from '@pascal-app/editor'
 
 export function parseCabinetDimensionInput(
@@ -5,7 +6,7 @@ export function parseCabinetDimensionInput(
   options: {
     locale: string
     metricNotation: 'meters' | 'millimeters'
-    unit: 'metric' | 'imperial'
+    unit: LinearUnit
   },
 ): number | null {
   return parseMeasurement(
@@ -13,9 +14,9 @@ export function parseCabinetDimensionInput(
     { kind: 'length', unitId: 'm' },
     {
       bareUnit:
-        options.unit === 'imperial' ? 'in' : options.metricNotation === 'millimeters' ? 'mm' : 'm',
+        options.unit !== 'metric' ? 'in' : options.metricNotation === 'millimeters' ? 'mm' : 'm',
       locale: options.locale,
-      system: options.unit === 'imperial' ? 'imperial' : 'metric',
+      system: options.unit !== 'metric' ? 'imperial' : 'metric',
     },
   )
 }

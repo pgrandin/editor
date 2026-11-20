@@ -5,6 +5,7 @@ import {
   FRAMING_SPACINGS,
   type InsulationKind,
   type InteriorFinishKind,
+  type LinearUnit,
   LUMBER_DEPTH,
   type MessageDescriptor,
   type NominalLumber,
@@ -18,8 +19,6 @@ import {
 import { SelectControl } from '@pascal-app/editor'
 import { useState } from 'react'
 import { formatLayerThickness, parseLayerThickness } from './layer-thickness'
-
-type LinearUnit = 'metric' | 'imperial'
 
 const key = (value: number) => value.toFixed(6)
 
@@ -111,7 +110,7 @@ export function BuildUpReadout({ label, value }: { label: string; value: string 
 /** A spacing on centre, as the viewer's unit names it: `16" o.c.` or `406 mm o.c.`. */
 export function formatSpacing(metres: number, unit: LinearUnit, i18n: PascalI18n): string {
   const spacing =
-    unit === 'imperial' ? formatLayerThickness(metres, unit) : `${Math.round(metres * 1000)} mm`
+    unit !== 'metric' ? formatLayerThickness(metres, unit) : `${Math.round(metres * 1000)} mm`
   return i18n._({
     id: 'node.shared.buildUpControls.spacingOC',
     message: '{spacing} o.c.',

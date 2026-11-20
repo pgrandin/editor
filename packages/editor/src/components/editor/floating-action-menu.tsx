@@ -18,6 +18,7 @@ import {
   isRegistryMovable,
   isRegistrySelectable,
   isSplineFence,
+  type LinearUnit,
   type NodeQuickAction,
   nodeRegistry,
   runAsSingleSceneHistoryStep,
@@ -795,7 +796,7 @@ function SystemSummaryPill({
 }: {
   metricNotation: 'meters' | 'millimeters'
   nodeId: AnyNodeId
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const i18n = usePascalI18n()
   const allNodes = useScene((s) => s.nodes)

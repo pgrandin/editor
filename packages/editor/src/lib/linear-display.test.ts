@@ -38,6 +38,7 @@ describe('linear property control units', () => {
         ['metric', 'meters'],
         ['metric', 'millimeters'],
         ['imperial', 'meters'],
+        ['inches', 'meters'],
       ] as const) {
         const display = getLinearDisplay('m', unit, notation, 2, 0.01)
         expect(display.toStored(display.toDisplay(stored))).toBeCloseTo(stored, 12)

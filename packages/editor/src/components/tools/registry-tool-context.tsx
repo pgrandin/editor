@@ -1,6 +1,6 @@
 'use client'
 
-import type { AnyNodeId, LevelNode, SceneApi } from '@pascal-app/core'
+import type { AnyNodeId, LevelNode, LinearUnit, SceneApi } from '@pascal-app/core'
 import { createContext, type ReactNode, useContext } from 'react'
 
 export type RegistryToolContextValue = {
@@ -8,7 +8,7 @@ export type RegistryToolContextValue = {
   isCameraDragging: () => boolean
   sceneApi: SceneApi
   selectNode: (nodeId: AnyNodeId) => void
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }
 
 const RegistryToolContext = createContext<RegistryToolContextValue | null>(null)

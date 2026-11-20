@@ -1,4 +1,4 @@
-import type { LinearUnit } from '@pascal-app/core'
+import { formatLinearMeasurement, type LinearUnit } from '@pascal-app/core'
 
 const METRES_PER_INCH = 0.0254
 
@@ -41,7 +41,7 @@ export function parseLayerThickness(raw: string, unit: LinearUnit): number | nul
     case "'":
       return value * 12 * METRES_PER_INCH
     default:
-      return unit === 'imperial' ? value * METRES_PER_INCH : value / 1000
+      return unit !== 'metric' ? value * METRES_PER_INCH : value / 1000
   }
 }
 
@@ -50,6 +50,7 @@ export function parseLayerThickness(raw: string, unit: LinearUnit): number | nul
  * other value as decimal inches (0.0111 m is `0.437"`).
  */
 export function formatLayerThickness(metres: number, unit: LinearUnit): string {
+  if (unit === 'inches') return formatLinearMeasurement(metres, unit)
   if (unit !== 'imperial') return `${Math.round(metres * 1000 * 10) / 10} mm`
   const inchValue = metres / METRES_PER_INCH
   const parts = Math.round(inchValue * 32)

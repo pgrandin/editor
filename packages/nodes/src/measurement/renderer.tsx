@@ -7,6 +7,7 @@ import {
   formatAreaLabel,
   formatLinearMeasurement,
   formatVolumeLabel,
+  type LinearUnit,
   type MeasurementNode,
   type MeasurementPoint,
   measurementAngle,
@@ -292,7 +293,7 @@ function buildRenderData(measurement: ResolvedMeasurementPayload): MeasurementRe
 
 function formatMeasurement(
   measurement: ResolvedMeasurementPayload,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: 'meters' | 'millimeters',
 ): string {
   if (measurement.kind === 'distance') {

@@ -4,6 +4,7 @@ import {
   type FloorplanGeometry,
   type GeometryContext,
   LevelNode,
+  type LinearUnit,
   readFloorplanGeometryMetadata,
   StairNode,
   StairSegmentNode,
@@ -16,7 +17,7 @@ import {
   stairPlanBreakStep,
 } from './documentation'
 
-function context(levelId = 'level_ground', unit: 'metric' | 'imperial' = 'metric') {
+function context(levelId = 'level_ground', unit: LinearUnit = 'metric') {
   return {
     resolve: () => undefined,
     children: [],

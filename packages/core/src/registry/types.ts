@@ -9,6 +9,7 @@ import type { SceneMaterial, SceneMaterialId } from '../schema/scene-material'
 import type { AnyNode, AnyNodeId, Discipline, DisplayFamily, PartKey } from '../schema/types'
 import type { SurfaceProvider } from '../services/surface-hosting'
 import type { InteractiveState } from '../store/use-interactive'
+import type { LinearUnit } from '../utils/measurement-format'
 import type { HandleList } from './handles'
 import type { CloneNodesIntoOptions, Subtree } from './subtree'
 
@@ -93,7 +94,7 @@ export type GeometryContext = {
    */
   viewState?: {
     selected: boolean
-    unit: 'metric' | 'imperial'
+    unit: LinearUnit
     /** Marquee or programmatic highlight — shows selected chrome without keyboard focus. */
     highlighted: boolean
     /** Pointer-hovered. */

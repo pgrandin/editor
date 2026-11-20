@@ -2,6 +2,14 @@ import { describe, expect, test } from 'bun:test'
 import { formatConstructionLength } from './construction-length'
 
 describe('formatConstructionLength profiles', () => {
+  test('shows decimal total inches in editor and document dimensions', () => {
+    for (const profile of ['editor', 'document'] as const) {
+      expect(formatConstructionLength(314.5 * 0.0254, 'inches', profile)).toBe('314.5in')
+      expect(formatConstructionLength(-0.0625 * 0.0254, 'inches', profile)).toBe('-0.0625in')
+      expect(formatConstructionLength(0, 'inches', profile)).toBe('0in')
+    }
+  })
+
   test('keeps metre notation for interactive metric dimensions', () => {
     expect(formatConstructionLength(3.456, 'metric')).toBe('3.46m')
     expect(formatConstructionLength(-0.004, 'metric')).toBe('0m')

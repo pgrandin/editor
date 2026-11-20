@@ -1645,6 +1645,14 @@ msgstr "内"
 msgid "app.viewerToolbar.idOd"
 msgstr "内 + 外"
 
+# English: "Inches"
+# Source-Hash: bcfff10ca598650e
+# Review: required
+#: apps/editor/components/viewer-toolbar.tsx
+#, fuzzy
+msgid "app.viewerToolbar.inches"
+msgstr "英寸"
+
 # Source-Hash: 8a7ff5011275abbd
 # Review: required
 # AI-Provider: claude-code
@@ -39372,17 +39380,17 @@ msgstr "漫游：{state}"
 msgid "viewer.walkthrough.shutters"
 msgstr "护窗板"
 
-# English: "Close"
 # Source-Hash: d7cf5045c01b2eb9
 # Review: required
+# English: "Close"
 #: packages/viewer/src/ui/components/walkthrough-touch-controls.tsx
 #, fuzzy
 msgid "viewer.walkthroughTouch.close"
 msgstr "关闭"
 
-# English: "Crouch"
 # Source-Hash: f6bb8786828d83ab
 # Review: required
+# English: "Crouch"
 #: packages/viewer/src/ui/components/walkthrough-touch-controls.tsx
 #, fuzzy
 msgid "viewer.walkthroughTouch.crouch"

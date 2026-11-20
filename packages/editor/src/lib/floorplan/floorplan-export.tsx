@@ -13,6 +13,7 @@ import {
   type FloorplanWallDimensionFaces,
   getLevelDisplayName,
   isNodeKindEnabled,
+  type LinearUnit,
   type LiveNodeOverrides,
   type NodeCategory,
   nodeRegistry,
@@ -122,7 +123,7 @@ const NEUTRAL_VIEW_STATE = {
 } as const
 
 export function resolveFloorplanExportViewState(
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: FloorplanMetricNotation,
   wallDimensionFaces?: FloorplanWallDimensionFaces,
   automaticDimensions = true,
@@ -310,7 +311,7 @@ export async function exportFloorplanPdf(scope: FloorplanExportScope): Promise<v
 export function collectFloorplanSchedules(
   nodes: Record<string, AnyNode>,
   levelId: AnyNodeId,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   scope: FloorplanExportScope = 'full',
   { drafting = false }: { drafting?: boolean } = {},
 ): FloorplanSchedule[] {
@@ -775,7 +776,7 @@ export function collectFloorplanGeometry(
   nodes: Record<string, AnyNode>,
   levelId: AnyNodeId,
   scope: FloorplanExportScope,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: FloorplanMetricNotation,
   annotationVisibility: FloorplanAnnotationVisibility,
   drawingType: ConstructionDrawingType,

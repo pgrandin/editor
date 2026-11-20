@@ -4,6 +4,7 @@ import {
   type FloorplanPoint,
   type GeometryContext,
   getWallLocalFaceZ,
+  type LinearUnit,
   readFloorplanContext,
   type SpaceBoundaryFace,
   type WallNode,
@@ -148,7 +149,7 @@ function resolveClearFaceRectangle(
 
 function buildRectangleClearDimensions(
   rectangle: [FloorplanPoint, FloorplanPoint, FloorplanPoint, FloorplanPoint],
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   metricNotation: ConstructionMetricNotation,
   stroke: string,
@@ -180,7 +181,7 @@ function buildRectangleClearDimensions(
 
 function buildRectilinearClearDimensions(
   faceLines: readonly FaceLine[],
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   metricNotation: ConstructionMetricNotation,
   stroke: string,
@@ -264,7 +265,7 @@ function dimensionBetweenOverlappingParallelFaces(
   second: FaceLine,
   direction: FloorplanPoint,
   polygon: readonly FloorplanPoint[],
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   metricNotation: ConstructionMetricNotation,
   stroke: string,
@@ -334,7 +335,7 @@ function buildRoomToRoomClearDimensions(
   ctx: GeometryContext,
   boundaryFaces: readonly SpaceBoundaryFace[],
   wallsById: ReadonlyMap<string, WallNode>,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   metricNotation: ConstructionMetricNotation,
   stroke: string,
@@ -412,7 +413,7 @@ function buildRoomToRoomClearDimensions(
 function dimensionAcrossSharedRoomWall(
   currentLine: FaceLine,
   neighborLine: FaceLine,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   metricNotation: ConstructionMetricNotation,
   stroke: string,
@@ -523,7 +524,7 @@ function dimensionAcrossOppositeFaces(
   oppositeStart: FloorplanPoint,
   oppositeEnd: FloorplanPoint,
   position: number,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   metricNotation: ConstructionMetricNotation,
   stroke: string,

@@ -6,6 +6,7 @@ import {
   formatAreaLabel,
   formatLinearMeasurement,
   formatVolumeLabel,
+  type LinearUnit,
   type UnitNode,
   useLiveNodeOverrides,
   usePascalI18n,
@@ -31,7 +32,7 @@ function ZonePlanSketch({
   edgeLengths: readonly number[]
   metricNotation: 'meters' | 'millimeters'
   polygon: readonly Point2D[]
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const i18n = usePascalI18n()
   if (polygon.length < 3) {

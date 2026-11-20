@@ -15,6 +15,7 @@ import {
   getWallArcData,
   getWallCurveFrameAt,
   getWallLocalFaceZ,
+  type LinearUnit,
   readFloorplanContext,
   readFloorplanMetricNotationOverride,
   withFloorplanGeometryMetadata,
@@ -263,7 +264,7 @@ function buildLinearOrChord(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   editable: boolean,
 ): FloorplanGeometry {
@@ -308,7 +309,7 @@ function buildRadius(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   editable: boolean,
 ): FloorplanGeometry | null {
@@ -344,7 +345,7 @@ function buildDiameter(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   editable: boolean,
 ): FloorplanGeometry | null {
@@ -393,7 +394,7 @@ function buildArcLength(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   editable: boolean,
 ): FloorplanGeometry | null {
@@ -474,7 +475,7 @@ function buildCoordinate(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   profile: ConstructionLengthProfile,
   editable: boolean,
 ): FloorplanGeometry | null {

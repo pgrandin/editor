@@ -32,7 +32,7 @@ export function ProjectPage({ projectId }: { projectId: string }) {
 }
 ```
 
-`apps/editor/components/scene-loader.tsx` is a complete host: navbar, sidebar tabs, toolbars and persistence.
+`apps/editor/components/scene-loader.tsx` is a complete host: navbar, sidebar tabs, toolbars and persistence. In that host, **Display → Units → Inches** shows lengths in decimal total inches (for example, `314.5in`). In this mode a driving dimension accepts both `314.5` and `314.5in`.
 
 ## Host props
 

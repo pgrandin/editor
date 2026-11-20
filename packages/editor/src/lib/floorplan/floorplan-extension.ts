@@ -8,6 +8,7 @@ import type {
   FloorplanSchedule,
   FloorplanWallDimensionFaces,
   GeometryContext,
+  LinearUnit,
   NodeDefinition,
   SceneApi,
 } from '@pascal-app/core'
@@ -20,7 +21,7 @@ export type FloorplanToolMode = 'default' | 'expert'
 export type FloorplanToolContext = {
   sceneApi: SceneApi
   activeLevelId: AnyNodeId | null
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   metricNotation: FloorplanMetricNotation
   gridSnapStep: number
   toolDefaults: Readonly<Record<string, unknown>> | null
@@ -75,7 +76,7 @@ export type FloorplanNodeExtension<N extends AnyNode = AnyNode> = {
     siblings: ReadonlyArray<N>
     nodes: Readonly<Record<string, AnyNode>>
     levelId: AnyNodeId
-    unit: 'metric' | 'imperial'
+    unit: LinearUnit
     /** A drafted sheet's schedule: marks match the sheet's tags. */
     drafting?: boolean
   }) => FloorplanSchedule | null
