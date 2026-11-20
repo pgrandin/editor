@@ -39380,17 +39380,17 @@ msgstr "漫游：{state}"
 msgid "viewer.walkthrough.shutters"
 msgstr "护窗板"
 
+# English: "Close"
 # Source-Hash: d7cf5045c01b2eb9
 # Review: required
-# English: "Close"
 #: packages/viewer/src/ui/components/walkthrough-touch-controls.tsx
 #, fuzzy
 msgid "viewer.walkthroughTouch.close"
 msgstr "关闭"
 
+# English: "Crouch"
 # Source-Hash: f6bb8786828d83ab
 # Review: required
-# English: "Crouch"
 #: packages/viewer/src/ui/components/walkthrough-touch-controls.tsx
 #, fuzzy
 msgid "viewer.walkthroughTouch.crouch"
