@@ -21,6 +21,7 @@ import {
   sceneRegistry,
   type TapActionHandle,
   useLiveNodeOverrides,
+  useLocale,
   useScene,
 } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
@@ -169,8 +170,8 @@ function guideDecorationRadius(decoration: unknown, node: AnyNode, sceneApi: Sce
 
 // Mirrors the formatter used by wall / fence measurement labels so all
 // in-world dimension chips read consistently.
-function formatDimension(value: number, unit: LinearUnit): string {
-  if (unit === 'inches') return formatLinearMeasurement(value, unit)
+function formatDimension(value: number, unit: LinearUnit, locale: string): string {
+  if (unit === 'inches') return formatLinearMeasurement(value, unit, undefined, locale)
   if (unit === 'imperial') {
     const feet = value * 3.280_84
     const wholeFeet = Math.floor(feet)
@@ -628,6 +629,7 @@ function CornerRadiusKnob({
   dragControls: HandleDragControls
   rideObject: Object3D
 }) {
+  const locale = useLocale()
   const [isHovered, setIsHovered] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const { camera } = useThree()
@@ -718,7 +720,7 @@ function CornerRadiusKnob({
       {isHovered || isDragging ? (
         <DimensionLabel
           position={[0, 0.22, 0]}
-          text={formatDimension(radius, useViewer.getState().unit)}
+          text={formatDimension(radius, useViewer.getState().unit, locale)}
         />
       ) : null}
     </HandleArrow>
@@ -763,6 +765,7 @@ function LinearArrow({
   dragControls: HandleDragControls
   rideObject: Object3D
 }) {
+  const locale = useLocale()
   const [isHovered, setIsHovered] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const { camera } = useThree()
@@ -945,7 +948,7 @@ function LinearArrow({
   // `measureLabel` handles route their readout to the floating dimension
   // pill, so suppress the inline chip here to avoid showing it twice.
   const showLabel = (isHovered || isDragging) && !measureLabel
-  const labelText = showLabel ? formatDimension(descriptor.currentValue(node), unit) : ''
+  const labelText = showLabel ? formatDimension(descriptor.currentValue(node), unit, locale) : ''
 
   // `tracker` shape on a linear-resize handle: render a dashed vertical
   // leader from the floor up to a small cube at `placement.position`. The
