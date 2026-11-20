@@ -54,7 +54,7 @@ function InchField({
   onCommit: (meters: number) => void
 }) {
   const [draft, setDraft] = useState<number | null>(null)
-  const imperial = useViewer((state) => state.unit) === 'imperial'
+  const imperial = useViewer((state) => state.unit) !== 'metric'
   const toShown = (meters: number) => (imperial ? meters / IN : meters)
   return (
     <MetricControl

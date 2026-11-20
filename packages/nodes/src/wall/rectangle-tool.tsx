@@ -3,6 +3,7 @@ import {
   emitter,
   formatLinearMeasurement,
   type GridEvent,
+  useLocale,
   useScene,
   type WallNode,
   type WallPlanPoint,
@@ -24,7 +25,6 @@ import {
   useEditor,
   useFloorplanDraftPreview,
   useInteractionScope,
-  useLinearDisplay,
   useRegistryToolContext,
   useWallSnapIndicator,
 } from '@pascal-app/editor'
@@ -37,7 +37,8 @@ import { createWallRectangle } from './rectangle-command'
 export default function RectangleWallTool() {
   const { activeLevelId, isCameraDragging } = useRegistryToolContext()
   const canvas = useThree((s) => s.gl.domElement)
-  const { isImperial } = useLinearDisplay('m', 2)
+  const unit = useViewer((s) => s.unit)
+  const locale = useLocale()
   const isDark = useViewer((state) => getSceneTheme(state.sceneTheme).appearance === 'dark')
   const measurementColor = isDark ? '#ffffff' : '#111111'
   const measurementShadowColor = isDark ? '#111111' : '#ffffff'
@@ -177,7 +178,6 @@ export default function RectangleWallTool() {
     }
   }, [activeLevelId, height, canvas, isCameraDragging])
   const corners = draft ? wallRectangleCorners(draft.start, draft.end) : []
-  const unit = isImperial ? 'imperial' : 'metric'
   // Label the two sides meeting at the cursor corner, as the floor plan does.
   const cursorIndex = draft
     ? corners.findIndex(([x, z]) => x === draft.end[0] && z === draft.end[1])
@@ -188,7 +188,12 @@ export default function RectangleWallTool() {
           const a = corners[side % 4]!
           const b = corners[(side + 1) % 4]!
           return {
-            label: formatLinearMeasurement(Math.hypot(b[0] - a[0], b[1] - a[1]), unit),
+            label: formatLinearMeasurement(
+              Math.hypot(b[0] - a[0], b[1] - a[1]),
+              unit,
+              undefined,
+              locale,
+            ),
             position: [
               (a[0] + b[0]) / 2,
               draft.y + height + DRAFT_LABEL_Y_OFFSET,

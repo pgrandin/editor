@@ -256,18 +256,30 @@ export function CeilingPanel() {
   // Clean preset values per display system; imperial stores exact meters
   // for 8'0" / 8'6" / 9'0" ceilings.
   const heightPresets =
-    unit === 'imperial'
+    unit !== 'metric'
       ? [
           {
             label: i18n._({ id: 'node.ceiling.panel.low80', message: 'Low (8\'0")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.ceiling.panel.lowInches',
+              message: 'Low ({length})',
+            },
             height: 2.4384,
           },
           {
             label: i18n._({ id: 'node.ceiling.panel.standard86', message: 'Standard (8\'6")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.ceiling.panel.standardInches',
+              message: 'Standard ({length})',
+            },
             height: 2.5908,
           },
           {
             label: i18n._({ id: 'node.ceiling.panel.high90', message: 'High (9\'0")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.ceiling.panel.highInches',
+              message: 'High ({length})',
+            },
             height: 2.7432,
           },
         ]
@@ -341,7 +353,21 @@ export function CeilingPanel() {
                 className={fits ? undefined : 'cursor-not-allowed opacity-40'}
                 disabled={!fits}
                 key={preset.label}
-                label={preset.label}
+                label={
+                  unit === 'inches' && 'inchesLabel' in preset && preset.inchesLabel
+                    ? i18n._({
+                        ...preset.inchesLabel,
+                        values: {
+                          length: formatLinearMeasurement(
+                            preset.height,
+                            unit,
+                            undefined,
+                            i18n.getLocale(),
+                          ),
+                        },
+                      })
+                    : preset.label
+                }
                 onClick={() => handleHeightChange(preset.height)}
                 title={
                   fits

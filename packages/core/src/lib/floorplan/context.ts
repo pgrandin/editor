@@ -1,5 +1,6 @@
 import type { FloorplanGeometry, FloorplanPalette, GeometryContext } from '../../registry/types'
 import type { AnyNode, AnyNodeId } from '../../schema'
+import type { LinearUnit } from '../../utils/measurement-format'
 
 /** The `def.floorplan` contract every plan host shares: context extensions and geometry metadata. */
 export const FLOORPLAN_GEOMETRY_METADATA_KEY = 'pascal:editor/floorplan'
@@ -189,7 +190,8 @@ export function readFloorplanMetricNotationOverride(
 export type FloorplanViewState = {
   automaticDimensions?: boolean
   selected: boolean
-  unit: 'metric' | 'imperial'
+  locale?: string
+  unit: LinearUnit
   metricNotation?: 'meters' | 'millimeters'
   purpose?: 'edit' | 'document'
   /** Sheet drafting conventions (see `FloorplanContextExtension.drafting`). */
@@ -252,6 +254,7 @@ export function buildFloorplanContext(
     viewState: viewState.palette
       ? {
           selected: viewState.selected,
+          locale: viewState.locale,
           unit: viewState.unit,
           highlighted: viewState.highlighted,
           hovered: viewState.hovered,

@@ -5,6 +5,7 @@ import {
   emitter,
   formatFixed,
   type GridEvent,
+  type LinearUnit,
   sceneRegistry,
   usePascalI18n,
   useScene,
@@ -1303,7 +1304,7 @@ export function DistributionRunCursor({
   snapTarget: RunPoint | null
   snapScreen?: PortScreenPoint | null
   altActive: boolean
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   extraParts?: DimensionPillPart[]
   cursorRef?: RefObject<Group | null>
   directionMode: RunDirectionMode

@@ -12,6 +12,7 @@ import { Html } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import { act, create } from '@react-three/test-renderer'
 import type { ReactNode } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { RegistryToolProvider } from '../../../editor/src/components/tools/registry-tool-context'
 import { sfxEmitter } from '../../../editor/src/lib/sfx-bus'
 import { useFloorplanDraftPreview } from '../../../editor/src/store/use-floorplan-draft-preview'
@@ -119,7 +120,9 @@ test('the first corner is mirrored out of tree until the room lands or is droppe
     </RegistryToolProvider>,
   )
   const start = () => useFloorplanDraftPreview.getState().wallRectangleDraftStart
+  const previousUnit = useViewer.getState().unit
   try {
+    useViewer.setState({ unit: 'inches' })
     await act(async () => emitter.emit('grid:click', grid(0, 0)))
     expect(start()).toEqual([0, 0])
     await act(async () => emitter.emit('grid:click', grid(3, 2)))
@@ -129,6 +132,7 @@ test('the first corner is mirrored out of tree until the room lands or is droppe
     await act(async () => emitter.emit('tool:cancel'))
     expect(start()).toBeNull()
   } finally {
+    useViewer.setState({ unit: previousUnit })
     await renderer.unmount()
   }
 })

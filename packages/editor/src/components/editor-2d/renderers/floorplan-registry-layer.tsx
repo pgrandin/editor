@@ -23,6 +23,7 @@ import {
   isNodeKindEnabled,
   isRegistryMovable,
   kindsWithFloorplanScope,
+  type LinearUnit,
   type LiveNodeOverrides,
   type LiveTransform,
   nodeRegistry,
@@ -35,6 +36,7 @@ import {
   useInteractive,
   useLiveNodeOverrides,
   useLiveTransforms,
+  useLocale,
   useScene,
   WALL_PULL_AFFORDANCE,
   WALL_PUSH_AFFORDANCE,
@@ -410,7 +412,8 @@ type NodeDeps = {
   automaticDimensions: boolean
   node: AnyNode
   live: LiveTransform | undefined
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
+  locale?: string
   metricNotation: 'meters' | 'millimeters'
   wallDimensionFaces?: FloorplanWallDimensionFaces
   selected: boolean
@@ -560,6 +563,7 @@ export const FloorplanRegistryLayer = memo(function FloorplanRegistryLayer() {
   const selectedLevelId = useViewer((s) => s.selection.levelId)
   const selectedBuildingId = useViewer((s) => s.selection.buildingId)
   const unit = useViewer((s) => s.unit)
+  const locale = useLocale()
   const metricNotation = useViewer((s) => s.metricNotation)
   const setSelection = useViewer((s) => s.setSelection)
   const nodes = useScene((s) => s.nodes)
@@ -1677,6 +1681,7 @@ export const FloorplanRegistryLayer = memo(function FloorplanRegistryLayer() {
         setMovingNodeOrigin={setMovingNodeOrigin}
         siblingEpoch={entry.dependsOnSiblingInputs ? (siblingEpochs.get(entry.id) ?? 0) : 0}
         unit={unit}
+        locale={locale}
         metricNotation={metricNotation}
         wallDimensionFaces={wallDimensionFaces}
         visibilityRootId={
@@ -2058,7 +2063,8 @@ type FloorplanRegistryEntryProps = {
   setMovingNode: ReturnType<typeof useEditor.getState>['setMovingNode']
   setMovingNodeOrigin: ReturnType<typeof useEditor.getState>['setMovingNodeOrigin']
   siblingEpoch: number
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
+  locale?: string
   metricNotation: 'meters' | 'millimeters'
   wallDimensionFaces: FloorplanWallDimensionFaces
   visibilityRootId: AnyNodeId | undefined
@@ -2097,6 +2103,7 @@ const FloorplanRegistryEntry = memo(function FloorplanRegistryEntry({
   setMovingNodeOrigin,
   siblingEpoch,
   unit,
+  locale,
   metricNotation,
   wallDimensionFaces,
   visibilityRootId,
@@ -2291,6 +2298,7 @@ const FloorplanRegistryEntry = memo(function FloorplanRegistryEntry({
     selected,
     siblingEpoch,
     unit,
+    locale,
     metricNotation,
     wallDimensionFaces,
     visibilityRootId,
@@ -2363,7 +2371,8 @@ type BuildFloorplanEntryGeometryArgs = {
   unitFocus?: FloorplanUnitFocus
   selected: boolean
   siblingEpoch: number
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
+  locale?: string
   metricNotation: 'meters' | 'millimeters'
   wallDimensionFaces?: FloorplanWallDimensionFaces
   visibilityRootId: AnyNodeId | undefined
@@ -2424,6 +2433,7 @@ export function buildFloorplanEntryGeometry({
   selected,
   siblingEpoch,
   unit,
+  locale,
   metricNotation,
   wallDimensionFaces,
   visibilityRootId,
@@ -2452,6 +2462,7 @@ export function buildFloorplanEntryGeometry({
     ctxOverrides,
     live,
     unit,
+    locale,
     metricNotation,
     wallDimensionFaces,
     selected,
@@ -2538,6 +2549,7 @@ export function buildFloorplanEntryGeometry({
     automaticDimensions,
     selected,
     unit,
+    locale,
     metricNotation,
     roomLabelOverlay: true,
     wallDimensionFaces,
@@ -2571,6 +2583,7 @@ export function buildFloorplanEntryGeometry({
         viewState: palette
           ? {
               selected,
+              locale,
               unit,
               highlighted,
               hovered,
@@ -3926,6 +3939,7 @@ function nodeDepsEqual(a: NodeDeps, b: NodeDeps): boolean {
     'node',
     'live',
     'unit',
+    'locale',
     'metricNotation',
     'wallDimensionFaces',
     'selected',

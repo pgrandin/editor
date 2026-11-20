@@ -63,14 +63,14 @@ const sentence = (type: string) => {
 }
 
 const metres = (value: number, unit: PointUnit) => {
-  if (unit.unit === 'imperial') return formatLinearMeasurement(value, 'imperial')
+  if (unit.unit !== 'metric') return formatLinearMeasurement(value, unit.unit)
   return unit.metricNotation === 'millimeters' ? `${Math.round(value * 1000)}` : value.toFixed(2)
 }
 
 /** "4.80 × 2.70 m", "3'11" × 4'7"", "1200 × 1400 mm". */
 function dimensions(values: number[], unit: PointUnit): string {
   const parts = values.map((value) => metres(value, unit)).join(' × ')
-  if (unit.unit === 'imperial') return parts
+  if (unit.unit !== 'metric') return parts
   return `${parts} ${unit.metricNotation === 'millimeters' ? 'mm' : 'm'}`
 }
 

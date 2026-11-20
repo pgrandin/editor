@@ -11,6 +11,7 @@ import {
   getLinearUnitLabel,
   getWallCurveLength,
   getWallThickness,
+  type LinearUnit,
   linearControlValueToMeters,
   metersToLinearUnit,
   usePascalI18n,
@@ -24,7 +25,7 @@ import { curtainPanelType } from './curtain-wall-layout'
 type Props = {
   node: WallNode
   height: number
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   onUpdate: (patch: Partial<WallNode>) => void
   onPreview: (patch: Partial<WallNode>) => void
   onCommit: () => void

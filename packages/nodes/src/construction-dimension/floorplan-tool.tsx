@@ -15,6 +15,7 @@ import {
   getArcPlanPoint,
   getWallArcData,
   getWallCurveFrameAt,
+  type LinearUnit,
   type MeasurementAnchor,
   type MeasurementFeatureAnchor,
   type MeasurementPoint,
@@ -143,7 +144,7 @@ export function resolveConstructionDimensionDraftDirection(
 export function buildConstructionDimensionPreviewGeometries(
   points: readonly MeasurementPoint[],
   baselinePoint: MeasurementPoint,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   mode: ConstructionDimensionMode = 'linear',
   metricNotation: 'meters' | 'millimeters' = 'meters',
   directionOverride?: readonly [number, number] | null,

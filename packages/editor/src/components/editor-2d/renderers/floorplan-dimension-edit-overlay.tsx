@@ -1,7 +1,7 @@
 'use client'
 
 import type { AnyNode, AnyNodeId } from '@pascal-app/core'
-import { useLocale, useScene } from '@pascal-app/core'
+import { type LinearUnit, useLocale, useScene } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { FloorplanDimensionHitsProvider } from '@pascal-app/viewer/ui'
 import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react'
@@ -257,7 +257,7 @@ type CommitOutcome = { ok: true } | { ok: false; reason: string }
 export function commitDimensionValue(args: {
   target: Pick<EditTarget, 'ownerNodeId' | 'witnessStart' | 'witnessEnd' | 'value'>
   nextLength: number
-  unit?: 'metric' | 'imperial'
+  unit?: LinearUnit
 }): CommitOutcome {
   const store = useScene.getState()
   const nodes = store.nodes as Readonly<Record<string, AnyNode>>

@@ -1,5 +1,6 @@
 'use client'
 
+import type { LinearUnit } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { LocalizedHtml as Html } from '@pascal-app/viewer/ui'
 import { memo, useEffect, useLayoutEffect, useMemo } from 'react'
@@ -71,7 +72,7 @@ function OpeningGuide({
 }: {
   guide: OpeningGuide3D
   metricNotation: 'meters' | 'millimeters'
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   if (guide.kind === 'badge') {
     return (

@@ -396,10 +396,12 @@ export function buildWallFloorplan(node: WallNode, ctx: GeometryContext): Floorp
     const dimensionStandard = constructionDimensionStandard({
       ...FINISHED_FACE_DIMENSIONS,
       metricNotation,
+      locale: view?.locale,
     })
     const exteriorCornerDimensionStandard = constructionDimensionStandard({
       datumPolicy: 'structural-face',
       metricNotation,
+      locale: view?.locale,
     })
     if (isCurvedWall(node)) {
       children.push(

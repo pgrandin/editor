@@ -4,6 +4,7 @@ import {
   type AnyNode,
   formatAreaLabel,
   formatFixed,
+  formatLinearMeasurement,
   getAreaUnitLabel,
   isDerivedNode,
   MIN_SLAB_THICKNESS,
@@ -286,22 +287,38 @@ export function SlabPanel() {
   // Clean preset values per display system; imperial stores exact meters
   // for whole-inch offsets.
   const elevationPresets =
-    unit === 'imperial'
+    unit !== 'metric'
       ? [
           {
             label: i18n._({ id: 'node.slab.panel.sunken6', message: 'Sunken (6")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.slab.panel.sunkenInches',
+              message: 'Sunken ({length})',
+            },
             elevation: -0.1524,
           },
           {
             label: i18n._({ id: 'node.slab.panel.thin1', message: 'Thin (1")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.slab.panel.thinInches',
+              message: 'Thin ({length})',
+            },
             elevation: 0.0254,
           },
           {
             label: i18n._({ id: 'node.slab.panel.standard2', message: 'Standard (2")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.slab.panel.standardInches',
+              message: 'Standard ({length})',
+            },
             elevation: 0.0508,
           },
           {
             label: i18n._({ id: 'node.slab.panel.thick6', message: 'Thick (6")' }),
+            inchesLabel: /* i18n */ {
+              id: 'node.slab.panel.thickInches',
+              message: 'Thick ({length})',
+            },
             elevation: 0.1524,
           },
         ]
@@ -426,7 +443,21 @@ export function SlabPanel() {
           {elevationPresets.map((preset) => (
             <ActionButton
               key={preset.label}
-              label={preset.label}
+              label={
+                unit === 'inches' && 'inchesLabel' in preset && preset.inchesLabel
+                  ? i18n._({
+                      ...preset.inchesLabel,
+                      values: {
+                        length: formatLinearMeasurement(
+                          preset.elevation,
+                          unit,
+                          undefined,
+                          i18n.getLocale(),
+                        ),
+                      },
+                    })
+                  : preset.label
+              }
               onClick={() => handleElevationPreset(preset.elevation)}
             />
           ))}

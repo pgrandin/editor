@@ -7,6 +7,7 @@ import type {
   GroundBox,
   LevelGradeStanding,
   LevelNode,
+  LinearUnit,
   SitePresentation,
   UnitNode,
   ZoneNode,
@@ -131,8 +132,8 @@ type ViewerState = {
   shadows: boolean
   setShadows: (shadows: boolean) => void
 
-  unit: 'metric' | 'imperial'
-  setUnit: (unit: 'metric' | 'imperial') => void
+  unit: LinearUnit
+  setUnit: (unit: LinearUnit) => void
   metricNotation: MetricNotation
   setMetricNotation: (notation: MetricNotation) => void
   /** True once the user explicitly picked a unit. Until then `unit` is a
@@ -434,7 +435,7 @@ const CAMERA_MODES = ['perspective', 'orthographic'] as const
 const RENDER_SHADINGS = ['solid', 'rendered'] as const
 const COLOR_PRESETS = ['clay', 'white', 'mono', 'blueprint'] as const
 const EDGE_MODES = ['off', 'soft', 'strong'] as const
-const UNITS = ['metric', 'imperial'] as const
+const UNITS = ['metric', 'imperial', 'inches'] as const
 const METRIC_NOTATIONS = ['meters', 'millimeters'] as const
 const LEVEL_MODES = ['stacked', 'exploded', 'solo', 'manual'] as const
 const WALL_MODES = ['up', 'cutaway', 'down', 'translucent'] as const

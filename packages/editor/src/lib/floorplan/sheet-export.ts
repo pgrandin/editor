@@ -32,6 +32,7 @@ import type {
 } from '@pascal-app/core'
 import {
   type FloorplanMetricNotation,
+  type LinearUnit,
   nodeRegistry,
   resolveBuildingForLevel,
 } from '@pascal-app/core'
@@ -85,7 +86,7 @@ export type SheetGeometryOptions = {
   annotationVisibility: FloorplanAnnotationVisibility
   /** Return false to leave a node out of this viewport (the layer switches). */
   accept?: (node: AnyNode, category: string | undefined) => boolean
-  unit?: 'metric' | 'imperial'
+  unit?: LinearUnit
   metricNotation?: FloorplanMetricNotation
 }
 

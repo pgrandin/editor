@@ -1,3 +1,4 @@
+import type { LinearUnit } from '@pascal-app/core'
 import {
   type AnyNode,
   deriveZoneQuantityReport,
@@ -6,7 +7,6 @@ import {
 } from '@pascal-app/core'
 import {
   type ConstructionLengthProfile,
-  type ConstructionLinearUnit,
   formatConstructionLength,
 } from '../shared/construction-length'
 
@@ -17,7 +17,7 @@ export function buildRoomFloorplanSchedule(args: {
   siblings: ReadonlyArray<ZoneNode>
   nodes: Readonly<Record<string, AnyNode>>
   levelId: string
-  unit: ConstructionLinearUnit
+  unit: LinearUnit
   profile?: ConstructionLengthProfile
 }): FloorplanSchedule | null {
   const rooms = args.siblings
@@ -74,7 +74,7 @@ function valueOrDash(value: string): string {
   return value.trim() || '—'
 }
 
-function formatRoomArea(squareMeters: number, unit: ConstructionLinearUnit): string {
+function formatRoomArea(squareMeters: number, unit: LinearUnit): string {
   if (!Number.isFinite(squareMeters)) return '—'
   if (unit === 'metric') return `${squareMeters.toFixed(2)} m²`
   return `${(squareMeters * SQUARE_FEET_PER_SQUARE_METER).toFixed(1)} ft²`

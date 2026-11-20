@@ -1,5 +1,10 @@
 import type { AnyNode, AnyNodeId, DoorNode, WallNode, WindowNode } from '@pascal-app/core'
-import { getLinkedWallUpdates, normalizeDecimalInput } from '@pascal-app/core'
+import {
+  getLinkedWallUpdates,
+  type LinearUnit,
+  linearUnitToMeters,
+  normalizeDecimalInput,
+} from '@pascal-app/core'
 
 /**
  * Driving dimensions — WS3.
@@ -27,13 +32,13 @@ const INCHES_PER_METER = 1 / 0.0254
  *   - `12'-6"`, `12' 6"`, `12'6"`, `12'`, `6"`, `12'-6 1/2"`, `6 1/2"`
  *   - `3810mm`, `381cm`, `3.81m`, `3810 mm`
  *   - bare number — `12.5` — interpreted in the caller's unit system:
- *     imperial → feet, metric → metres.
+ *     feet & inches → feet, inches → inches, metric → metres.
  *
  * Returns null for anything unparseable or non-positive.
  */
 export function parseDimensionInput(
   raw: string,
-  unit: 'metric' | 'imperial' = 'metric',
+  unit: LinearUnit = 'metric',
   locale = 'en',
 ): number | null {
   const text = normalizeDecimalInput(raw, locale).trim().toLowerCase().replace(/\s+/g, ' ')
@@ -84,7 +89,7 @@ export function parseDimensionInput(
   if (bare) {
     const value = Number.parseFloat(bare[1]!)
     if (!Number.isFinite(value)) return null
-    return positive(unit === 'imperial' ? (value * 12) / INCHES_PER_METER : value)
+    return positive(linearUnitToMeters(value, unit))
   }
 
   return null

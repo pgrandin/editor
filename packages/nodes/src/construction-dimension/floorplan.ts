@@ -21,7 +21,6 @@ import {
 } from '@pascal-app/core'
 import { resolveMeasurementAnchor } from '../measurement/resolve'
 import {
-  type ConstructionLengthFormatOptions,
   type ConstructionLengthProfile,
   formatConstructionLength,
 } from '../shared/construction-length'
@@ -61,6 +60,12 @@ export function buildConstructionDimensionFloorplan(
     profile === 'editor' && metricNotationOverride
       ? { ...node, metricNotation: metricNotationOverride }
       : node
+  const formatLength = (meters: number) =>
+    formatConstructionLength(meters, unit, profile, {
+      imperialPrecision: displayNode.imperialPrecision,
+      metricNotation: displayNode.metricNotation,
+      locale: ctx.viewState?.locale,
+    })
   const editable =
     ctx.viewState?.selected === true &&
     !(
@@ -85,18 +90,18 @@ export function buildConstructionDimensionFloorplan(
         },
       }
       return withFloorplanGeometryMetadata(
-        buildLinearOrChord(alignedNode, points, stroke, dangling, unit, profile, editable),
+        buildLinearOrChord(alignedNode, points, stroke, dangling, formatLength, editable),
         { annotationRole: 'manual-dimension' },
       )
     }
     case 'radius':
       return withFloorplanGeometryMetadata(
-        buildRadius(displayNode, points, stroke, dangling, unit, profile, editable),
+        buildRadius(displayNode, points, stroke, dangling, formatLength, editable),
         { annotationRole: 'manual-dimension' },
       )
     case 'diameter':
       return withFloorplanGeometryMetadata(
-        buildDiameter(displayNode, points, stroke, dangling, unit, profile, editable),
+        buildDiameter(displayNode, points, stroke, dangling, formatLength, editable),
         { annotationRole: 'manual-dimension' },
       )
     case 'center-mark':
@@ -106,7 +111,7 @@ export function buildConstructionDimensionFloorplan(
       )
     case 'arc-length':
       return withFloorplanGeometryMetadata(
-        buildArcLength(displayNode, points, stroke, dangling, unit, profile, editable),
+        buildArcLength(displayNode, points, stroke, dangling, formatLength, editable),
         { annotationRole: 'manual-dimension' },
       )
     case 'angular':
@@ -116,7 +121,7 @@ export function buildConstructionDimensionFloorplan(
       )
     case 'coordinate':
       return withFloorplanGeometryMetadata(
-        buildCoordinate(displayNode, points, stroke, dangling, unit, profile, editable),
+        buildCoordinate(displayNode, points, stroke, dangling, formatLength, editable),
         { annotationRole: 'manual-dimension' },
       )
   }
@@ -263,8 +268,7 @@ function buildLinearOrChord(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
-  profile: ConstructionLengthProfile,
+  formatLength: (meters: number) => string,
   editable: boolean,
 ): FloorplanGeometry {
   const layout = resolveConstructionDimensionLayout(node, points)
@@ -272,7 +276,7 @@ function buildLinearOrChord(
   const suppressedSegments = suppressedDimensionSegmentIndexes(node)
   const visibleSegments = layout.segments.filter((_, index) => !suppressedSegments.has(index))
   const dimensionSegments = visibleSegments.map((segment) => {
-    const baseText = `${node.mode === 'chord' ? 'CH ' : ''}${formatConstructionLength(segment.value, unit, profile, lengthFormatOptions(node))}`
+    const baseText = `${node.mode === 'chord' ? 'CH ' : ''}${formatLength(segment.value)}`
     return {
       witnessStart: segment.witnessStart,
       witnessEnd: segment.witnessEnd,
@@ -308,8 +312,7 @@ function buildRadius(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
-  profile: ConstructionLengthProfile,
+  formatLength: (meters: number) => string,
   editable: boolean,
 ): FloorplanGeometry | null {
   const layout = resolveCircularConstructionDimensionLayout('radius', points)
@@ -325,11 +328,7 @@ function buildRadius(
       layout.start,
       layout.end,
       normal,
-      notation(
-        node,
-        `R ${formatConstructionLength(layout.radius, unit, profile, lengthFormatOptions(node))}`,
-        dangling,
-      ),
+      notation(node, `R ${formatLength(layout.radius)}`, dangling),
       stroke,
     ),
     hitLine(layout.start, layout.end),
@@ -344,8 +343,7 @@ function buildDiameter(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
-  profile: ConstructionLengthProfile,
+  formatLength: (meters: number) => string,
   editable: boolean,
 ): FloorplanGeometry | null {
   const layout = resolveCircularConstructionDimensionLayout('diameter', points)
@@ -361,11 +359,7 @@ function buildDiameter(
       layout.start,
       layout.end,
       normal,
-      notation(
-        node,
-        `Ø ${formatConstructionLength(layout.radius * 2, unit, profile, lengthFormatOptions(node))}`,
-        dangling,
-      ),
+      notation(node, `Ø ${formatLength(layout.radius * 2)}`, dangling),
       stroke,
     ),
     hitLine(layout.start, layout.end),
@@ -393,8 +387,7 @@ function buildArcLength(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
-  profile: ConstructionLengthProfile,
+  formatLength: (meters: number) => string,
   editable: boolean,
 ): FloorplanGeometry | null {
   const layout = resolveCircularConstructionDimensionLayout('arc-length', points)
@@ -420,11 +413,7 @@ function buildArcLength(
     ),
     labelGeometry(
       labelPoint,
-      notation(
-        node,
-        `ARC ${formatConstructionLength(layout.arcLength, unit, profile, lengthFormatOptions(node))}`,
-        dangling,
-      ),
+      notation(node, `ARC ${formatLength(layout.arcLength)}`, dangling),
       0,
       true,
     ),
@@ -474,8 +463,7 @@ function buildCoordinate(
   points: MeasurementPoint[],
   stroke: string,
   dangling: boolean,
-  unit: 'metric' | 'imperial',
-  profile: ConstructionLengthProfile,
+  formatLength: (meters: number) => string,
   editable: boolean,
 ): FloorplanGeometry | null {
   const datum: FloorplanPoint = [points[0]![0], points[0]![2]]
@@ -487,7 +475,7 @@ function buildCoordinate(
     const dy = feature[1] - datum[1]
     const label = notation(
       node,
-      `P${index + 1} · X ${formatConstructionLength(dx, unit, profile, lengthFormatOptions(node))} · Y ${formatConstructionLength(dy, unit, profile, lengthFormatOptions(node))}`,
+      `P${index + 1} · X ${formatLength(dx)} · Y ${formatLength(dy)}`,
       dangling,
       false,
     )
@@ -518,13 +506,6 @@ function suppressedDimensionSegmentIndexes(node: ConstructionDimensionNode): Rea
 
 function dimensionGroup(children: FloorplanGeometry[]): FloorplanGeometry {
   return { kind: 'group', children }
-}
-
-function lengthFormatOptions(node: ConstructionDimensionNode): ConstructionLengthFormatOptions {
-  return {
-    imperialPrecision: node.imperialPrecision,
-    metricNotation: node.metricNotation,
-  }
 }
 
 function notation(

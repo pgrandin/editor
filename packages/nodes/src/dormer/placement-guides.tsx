@@ -1,6 +1,6 @@
 'use client'
 
-import type { RoofSegmentNode } from '@pascal-app/core'
+import type { LinearUnit, RoofSegmentNode } from '@pascal-app/core'
 import { EDITOR_LAYER, formatMeasurement } from '@pascal-app/editor'
 import { useViewer } from '@pascal-app/viewer'
 import { Html } from '@react-three/drei'
@@ -195,7 +195,7 @@ function Guide({
 }: {
   guide: DormerGuide
   metricNotation: 'meters' | 'millimeters'
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   if (guide.kind === 'badge') {
     return (

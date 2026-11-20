@@ -1,18 +1,25 @@
 'use client'
 
 import type { QuickMeasurementMetric, QuickMeasurementReport } from '@pascal-app/core'
-import { formatAreaLabel, formatLinearMeasurement, formatVolumeLabel } from '@pascal-app/core'
+import {
+  formatAreaLabel,
+  formatLinearMeasurement,
+  formatVolumeLabel,
+  type LinearUnit,
+  useLocale,
+} from '@pascal-app/core'
 import { Crosshair, MapPin } from 'lucide-react'
 import { memo } from 'react'
 
 function formatMetric(
   metric: QuickMeasurementMetric,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: 'meters' | 'millimeters',
+  locale: string,
 ): string {
   if (metric.quantity === 'area') return formatAreaLabel(metric.value, unit, 2)
   if (metric.quantity === 'volume') return formatVolumeLabel(metric.value, unit, 2)
-  return formatLinearMeasurement(metric.value, unit, metricNotation)
+  return formatLinearMeasurement(metric.value, unit, metricNotation, locale)
 }
 
 export const QuickMeasurementCard = memo(function QuickMeasurementCard({
@@ -22,10 +29,11 @@ export const QuickMeasurementCard = memo(function QuickMeasurementCard({
   lensState,
 }: {
   report: QuickMeasurementReport
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   metricNotation: 'meters' | 'millimeters'
   lensState: 'live' | 'pinned'
 }) {
+  const locale = useLocale()
   const pinned = lensState === 'pinned'
 
   return (
@@ -59,7 +67,7 @@ export const QuickMeasurementCard = memo(function QuickMeasurementCard({
               <span className="truncate">{metric.label}</span>
             </div>
             <div className="mt-0.5 truncate font-mono font-medium text-xs tabular-nums">
-              {formatMetric(metric, unit, metricNotation)}
+              {formatMetric(metric, unit, metricNotation, locale)}
             </div>
           </div>
         ))}

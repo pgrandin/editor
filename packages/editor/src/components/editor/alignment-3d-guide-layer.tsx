@@ -1,6 +1,6 @@
 'use client'
 
-import { type AlignmentGuide, sceneRegistry } from '@pascal-app/core'
+import { type AlignmentGuide, type LinearUnit, sceneRegistry } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { LocalizedHtml as Html } from '@pascal-app/viewer/ui'
 import { useFrame } from '@react-three/fiber'
@@ -190,7 +190,7 @@ function GuideLine({
 }: {
   guide: AlignmentGuide
   metricNotation: 'meters' | 'millimeters'
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const { x: fx, z: fz } = guide.from
   const { x: tx, z: tz } = guide.to

@@ -103,7 +103,7 @@ function beamTopHandle(current: number): HandleDescriptor<BeamNodeType> {
     magneticSnap: (n, value, sceneApi) => {
       const snapped = resolveStructuralElevationSnap(guideSource(n), value, sceneApi.nodes())
       if (snapped !== value) return snapped
-      const step = useViewer.getState().unit === 'imperial' ? INCH / 2 : 0.01
+      const step = useViewer.getState().unit !== 'metric' ? INCH / 2 : 0.01
       return Math.round(value / step) * step
     },
     onDrag: (n, sceneApi) =>

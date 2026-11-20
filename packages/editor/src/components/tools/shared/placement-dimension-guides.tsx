@@ -1,5 +1,6 @@
 'use client'
 
+import type { LinearUnit } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { LocalizedHtml as Html } from '@pascal-app/viewer/ui'
 import { useLayoutEffect, useMemo } from 'react'
@@ -52,7 +53,7 @@ function PlacementDimensionGuide({
   dimension: PlacementPreviewDimension
   dimensionInput: string | null
   metricNotation: 'meters' | 'millimeters'
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
 }) {
   const { line, position } = useMemo(() => {
     const position = new Float32BufferAttribute(new Float32Array(6), 3)

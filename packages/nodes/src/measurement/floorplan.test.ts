@@ -3,6 +3,7 @@ import {
   createFloorplanContextExtensions,
   type FloorplanGeometry,
   type GeometryContext,
+  type LinearUnit,
   MeasurementNode,
 } from '@pascal-app/core'
 import { MEASUREMENT_ACTIVE_COLOR, MEASUREMENT_FLOORPLAN_COLOR } from '@pascal-app/viewer'
@@ -27,7 +28,7 @@ const palette = {
 }
 
 const context = (
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   selected = false,
   metricNotation: 'meters' | 'millimeters' = 'meters',
 ): GeometryContext => ({
@@ -71,7 +72,9 @@ describe('buildMeasurementFloorplan', () => {
 
     const metric = buildMeasurementFloorplan(node, context('metric'))
     const imperial = buildMeasurementFloorplan(node, context('imperial'))
+    const inches = buildMeasurementFloorplan(node, context('inches'))
 
+    expect(inches && labels(inches)).toEqual(['120in'])
     expect(metric && labels(metric)).toEqual(['3.05m'])
     expect(imperial && labels(imperial)).toEqual([`10'0"`])
     expect(

@@ -10,6 +10,7 @@ import { messages as editorEnglishMessages } from './i18n/locales/en/messages'
 // remain explicitly host-registered through `@pascal-app/editor/locales`.
 registerEditorMessages('en', '', editorEnglishMessages)
 
+export type { LinearUnit as ScheduleUnit } from '@pascal-app/core'
 export {
   type ApplySceneSnapshotOptions,
   acquireSceneReadOnlyLease,
@@ -649,7 +650,6 @@ export {
   type RoomScheduleRow,
   roomSchedule,
   type ScheduleResult,
-  type ScheduleUnit,
   windowSchedule,
 } from './lib/floorplan/schedules'
 // Sheets — headless floor-plan geometry collection + the multi-sheet vector

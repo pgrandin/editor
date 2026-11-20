@@ -2,6 +2,8 @@ import type { AnyNode, AnyNodeId, DoorNode, WallNode, WindowNode, ZoneNode } fro
 import {
   deriveZoneQuantityReport,
   type FloorplanSchedule,
+  formatLinearMeasurement,
+  type LinearUnit,
   resolveHostedOpeningFrameDepth,
   resolveMarkDetail,
 } from '@pascal-app/core'
@@ -23,8 +25,6 @@ import { collectFloorplanSchedules } from './floorplan-export'
 
 const SQUARE_FEET_PER_SQUARE_METER = 10.76391041671
 const INCHES_PER_METER = 1 / 0.0254
-
-export type ScheduleUnit = 'metric' | 'imperial'
 
 export type OpeningScheduleRow = {
   id: string
@@ -70,7 +70,7 @@ export type ScheduleSceneInput =
   | Readonly<Record<string, AnyNode>>
 
 export type ScheduleOptions = {
-  unit?: ScheduleUnit
+  unit?: LinearUnit
   /** Collapse identical openings into one row carrying `count`. Default false. */
   group?: boolean
 }
@@ -124,7 +124,7 @@ function openingRow(
   opening: DoorNode | WindowNode,
   nodes: Readonly<Record<string, AnyNode>>,
   mark: string,
-  unit: ScheduleUnit,
+  unit: LinearUnit,
 ): OpeningScheduleRow {
   const remarks: string[] = []
   if (opening.roughOpeningWidth === undefined || opening.roughOpeningHeight === undefined) {
@@ -196,7 +196,7 @@ function openingMaterial(opening: DoorNode | WindowNode): string | null {
 function openingFrame(
   opening: DoorNode | WindowNode,
   nodes: Readonly<Record<string, AnyNode>>,
-  unit: ScheduleUnit,
+  unit: LinearUnit,
 ): string | null {
   const thickness = opening.frameThickness
   if (typeof thickness !== 'number') return null
@@ -271,15 +271,16 @@ export function roomSchedule(
 export function floorplanSchedules(
   nodes: Record<string, AnyNode>,
   levelId: AnyNodeId,
-  unit: ScheduleUnit,
+  unit: LinearUnit,
 ): FloorplanSchedule[] {
   return collectFloorplanSchedules(nodes, levelId, unit)
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
-export function formatScheduleLength(metres: number, unit: ScheduleUnit): string {
+export function formatScheduleLength(metres: number, unit: LinearUnit): string {
   if (!Number.isFinite(metres)) return '—'
+  if (unit === 'inches') return formatLinearMeasurement(metres, unit)
   if (unit === 'metric') return `${Math.round(metres * 1000)}`
   const denominator = 16
   const sign = metres < 0 ? '-' : ''
@@ -295,7 +296,7 @@ export function formatScheduleLength(metres: number, unit: ScheduleUnit): string
   return feet === 0 ? `${sign}${inchText}"` : `${sign}${feet}'-${inchText}"`
 }
 
-function formatArea(squareMetres: number, unit: ScheduleUnit): string {
+function formatArea(squareMetres: number, unit: LinearUnit): string {
   if (!Number.isFinite(squareMetres)) return '—'
   return unit === 'metric'
     ? `${squareMetres.toFixed(2)} m²`

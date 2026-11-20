@@ -116,7 +116,7 @@ export function buildMeasurementFloorplan(
             appearance: 'outlined',
             cx: (x1 + x2) / 2,
             cy: (y1 + y2) / 2,
-            text: `${statusPrefix}${formatLinearMeasurement(measurementDistance(start, end), unit, metricNotation)}`,
+            text: `${statusPrefix}${formatLinearMeasurement(measurementDistance(start, end), unit, metricNotation, ctx.viewState?.locale)}`,
             angle: Math.atan2(y2 - y1, x2 - x1),
             offsetPx: 14,
           },
@@ -172,7 +172,7 @@ export function buildMeasurementFloorplan(
     const label =
       measurement.kind === 'area'
         ? `A ${formatAreaLabel(measurementArea(measurement.base), unit)}`
-        : `P ${formatLinearMeasurement(measurementPerimeter(measurement.base), unit, metricNotation)}`
+        : `P ${formatLinearMeasurement(measurementPerimeter(measurement.base), unit, metricNotation, ctx.viewState?.locale)}`
 
     return withFloorplanGeometryMetadata(
       {

@@ -36,6 +36,7 @@ import {
   type ItemNode,
   isCurvedWall,
   type LevelNode,
+  type LinearUnit,
   linearUnitToMeters,
   loadAssetUrl,
   newZone,
@@ -2482,12 +2483,13 @@ function getFloorplanWall(wall: WallNode): WallNode {
 
 function formatMeasurement(
   value: number,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metersPerUnit: number | null = null,
   metricNotation: 'meters' | 'millimeters' = 'meters',
+  locale?: string,
 ) {
   const measuredValue = metersPerUnit && metersPerUnit > 0 ? value * metersPerUnit : value
-  return formatLinearMeasurement(measuredValue, unit, metricNotation)
+  return formatLinearMeasurement(measuredValue, unit, metricNotation, locale)
 }
 
 export function formatFloorplanNumber(value: number, locale: string, fractionDigits = 2) {
@@ -2605,15 +2607,11 @@ function getSlabArea(polygon: Point2D[], holes: Point2D[][]) {
   return { area: Math.max(0, totalArea), centroid: outer.centroid }
 }
 
-function formatArea(
-  areaSqM: number,
-  unit: 'metric' | 'imperial',
-  metersPerUnit: number | null = null,
-) {
+function formatArea(areaSqM: number, unit: LinearUnit, metersPerUnit: number | null = null) {
   const scaledAreaSqM =
     metersPerUnit && metersPerUnit > 0 ? areaSqM * metersPerUnit * metersPerUnit : areaSqM
 
-  if (unit === 'imperial') {
+  if (unit !== 'metric') {
     const areaSqFt = scaledAreaSqM * 10.763_910_4
     return (
       <>
@@ -3345,7 +3343,7 @@ function FloorplanReferenceScaleLayer({
   guideUi: Record<string, GuideUiState>
   guides: GuideNode[]
   palette: FloorplanPalette
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   unitsPerPixel: number
 }) {
   const locale = useLocale()
@@ -3395,10 +3393,11 @@ function FloorplanReferenceScaleDraftLine({
 }: {
   palette: FloorplanPalette
   start: WallPlanPoint
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   unitsPerPixel: number
 }) {
   const cursor = useFloorplanDraftPreview((s) => s.cursorPoint)
+  const locale = useLocale()
   const metricNotation = useViewer((state) => state.metricNotation)
   if (!cursor) {
     return null
@@ -3413,6 +3412,7 @@ function FloorplanReferenceScaleDraftLine({
         unit,
         null,
         metricNotation,
+        locale,
       )}`}
       palette={palette}
       start={start}
@@ -3791,9 +3791,10 @@ const FloorplanSiteEdgeLabelLayer = memo(function FloorplanSiteEdgeLabelLayer({
   sceneRotationDeg: number
   shouldShow: boolean
   sitePolygon: SitePolygonEntry | null
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   unitsPerPixel: number
 }) {
+  const locale = useLocale()
   const metricNotation = useViewer((state) => state.metricNotation)
   if (!(shouldShow && sitePolygon && sitePolygon.polygon.length >= 2)) {
     return null
@@ -3843,7 +3844,7 @@ const FloorplanSiteEdgeLabelLayer = memo(function FloorplanSiteEdgeLabelLayer({
       labelAngleDeg += 180
     }
 
-    const label = formatMeasurement(length, unit, null, metricNotation)
+    const label = formatMeasurement(length, unit, null, metricNotation, locale)
     const width = Math.max(label.length * upx * 6.4 + padX * 2, minWidth)
     const height = fontSize + padY * 2
 
@@ -4504,7 +4505,7 @@ function FloorplanLinearDraftLayer({
   isFenceBuildActive: boolean
   isRoofBuildActive: boolean
   walls: WallNode[]
-  unit: 'metric' | 'imperial'
+  unit: LinearUnit
   draftFill: string
   draftStroke: string
   measurementStroke: string
@@ -4512,6 +4513,7 @@ function FloorplanLinearDraftLayer({
   unitsPerPixel: number
   sceneRotationDeg: number
 }) {
+  const locale = useLocale()
   const metricNotation = useViewer((state) => state.metricNotation)
   // The thickness the wall commits at, as the 3D draft shows it.
   const wallDraftThickness = useWallDraftThickness(DEFAULT_WALL_THICKNESS)
@@ -4577,7 +4579,7 @@ function FloorplanLinearDraftLayer({
       const dy = to[1] - from[1]
       const length = Math.hypot(dx, dy)
       return {
-        lengthLabel: formatMeasurement(length, unit, null, metricNotation),
+        lengthLabel: formatMeasurement(length, unit, null, metricNotation, locale),
         midpoint: [(from[0] + to[0]) / 2, (from[1] + to[1]) / 2] as WallPlanPoint,
         direction: [dx / length, dy / length] as WallPlanPoint,
         angleLabels: [],
@@ -4587,6 +4589,7 @@ function FloorplanLinearDraftLayer({
   }, [
     isWallBuildActive,
     levelId,
+    locale,
     metricNotation,
     unit,
     wallRectangleDraftEnd,
@@ -4720,7 +4723,7 @@ function FloorplanLinearDraftLayer({
     }
 
     return {
-      lengthLabel: formatMeasurement(length, unit, null, metricNotation),
+      lengthLabel: formatMeasurement(length, unit, null, metricNotation, locale),
       midpoint: [
         (wallDraftStart[0] + wallDraftEnd[0]) / 2,
         (wallDraftStart[1] + wallDraftEnd[1]) / 2,
@@ -4728,7 +4731,7 @@ function FloorplanLinearDraftLayer({
       direction: [dx / length, dy / length] as WallPlanPoint,
       angleLabels,
     }
-  }, [isWallBuildActive, metricNotation, unit, wallDraftEnd, wallDraftStart, walls])
+  }, [isWallBuildActive, locale, metricNotation, unit, wallDraftEnd, wallDraftStart, walls])
 
   // Axis guides for wall and fence drafts — parity with the 3D tools'
   // `DraftAxisGuides`: an X/Z cross through the draft start, and a single
@@ -5213,7 +5216,7 @@ export function FloorplanPanel({
   }, [])
   const [referenceScaleValue, setReferenceScaleValue] = useState('1')
   const [referenceScaleUnit, setReferenceScaleUnit] = useState<ReferenceScaleUnit>(
-    unit === 'imperial' ? 'feet' : 'meters',
+    unit === 'inches' ? 'inches' : unit === 'imperial' ? 'feet' : 'meters',
   )
   // The cursor point is the hottest 2D state — every build/edit tool republishes
   // it on `grid:move`. It lives in `useFloorplanDraftPreview` (not panel state)
@@ -7188,7 +7191,7 @@ export function FloorplanPanel({
   latestFloorplanRenderUnitsPerPixelRef.current = floorplanUnitsPerPixel
 
   useEffect(() => {
-    setReferenceScaleUnit(unit === 'imperial' ? 'feet' : 'meters')
+    setReferenceScaleUnit(unit === 'inches' ? 'inches' : unit === 'imperial' ? 'feet' : 'meters')
   }, [unit])
 
   const startReferenceScaleForGuide = useCallback(
@@ -10309,15 +10312,11 @@ export function FloorplanPanel({
         // confirming without editing is a no-op instead of a surprise
         // rescale (plan units are meters; convert when defaulting to feet).
         setReferenceScaleValue(
-          formatFloorplanNumber(
-            unit === 'imperial'
-              ? measuredLengthUnits / linearUnitToMeters(1, 'imperial')
-              : measuredLengthUnits,
-            locale,
-            2,
-          ),
+          formatFloorplanNumber(measuredLengthUnits / linearUnitToMeters(1, unit), locale, 2),
         )
-        setReferenceScaleUnit(unit === 'imperial' ? 'feet' : 'meters')
+        setReferenceScaleUnit(
+          unit === 'inches' ? 'inches' : unit === 'imperial' ? 'feet' : 'meters',
+        )
         setReferenceScaleDraft(null)
         setCursorPoint(null)
         return
@@ -11653,6 +11652,7 @@ export function FloorplanPanel({
                   unit,
                   null,
                   metricNotation,
+                  locale,
                 )}
               </div>
             </div>

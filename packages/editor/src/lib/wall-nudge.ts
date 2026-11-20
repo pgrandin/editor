@@ -104,7 +104,7 @@ export function nudgeSelectedWall(key: string): boolean {
   const walls = Object.values(nodes).filter(
     (entry): entry is WallNode => entry?.type === 'wall' && entry.parentId === selected.parentId,
   )
-  const step = useViewer.getState().unit === 'imperial' ? WALL_NUDGE_IMPERIAL : WALL_NUDGE_METRIC
+  const step = useViewer.getState().unit !== 'metric' ? WALL_NUDGE_IMPERIAL : WALL_NUDGE_METRIC
   const nudge =
     selected.type === 'wall'
       ? wallNudgeDistance(selected, direction, walls, step)

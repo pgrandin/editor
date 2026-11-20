@@ -31,6 +31,7 @@ import useScene, {
   sceneDocumentOf,
 } from '../store/use-scene'
 import { reconcileDocument } from '../systems/document-reconcile'
+import type { LinearUnit } from '../utils/measurement-format'
 import { type Dependency, levelOf } from './dependencies'
 import { diffSceneDocuments, sameValue } from './patch'
 import {
@@ -54,7 +55,7 @@ export type SceneRevision =
 export type ExecutionContext = {
   activeLevelId: string | null
   selection: readonly string[]
-  units: 'metric' | 'imperial'
+  units: LinearUnit
   catalogVersion: string
   /** `captureRegistryVersions()` once the host's plugins are loaded. */
   registryVersions: Record<string, string>

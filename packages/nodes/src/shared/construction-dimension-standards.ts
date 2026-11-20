@@ -10,6 +10,7 @@ export type ConstructionDimensionDrawingStandard = {
   terminator: DimensionTerminator
   textPosition: DimensionTextPosition
   imperialPrecision: ConstructionImperialPrecision
+  locale?: string
   metricNotation: ConstructionMetricNotation
   openingChainOffset: number
   wallSpanOffset: number

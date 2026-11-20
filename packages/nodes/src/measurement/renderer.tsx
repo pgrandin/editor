@@ -7,6 +7,7 @@ import {
   formatAreaLabel,
   formatLinearMeasurement,
   formatVolumeLabel,
+  type LinearUnit,
   type MeasurementNode,
   type MeasurementPoint,
   measurementAngle,
@@ -16,6 +17,7 @@ import {
   measurementPerimeter,
   measurementPrismVolume,
   useLiveNodeOverrides,
+  useLocale,
   useRegistry,
   useScene,
 } from '@pascal-app/core'
@@ -292,11 +294,17 @@ function buildRenderData(measurement: ResolvedMeasurementPayload): MeasurementRe
 
 function formatMeasurement(
   measurement: ResolvedMeasurementPayload,
-  unit: 'metric' | 'imperial',
+  unit: LinearUnit,
   metricNotation: 'meters' | 'millimeters',
+  locale: string,
 ): string {
   if (measurement.kind === 'distance') {
-    return formatLinearMeasurement(measurementDistance(...measurement.points), unit, metricNotation)
+    return formatLinearMeasurement(
+      measurementDistance(...measurement.points),
+      unit,
+      metricNotation,
+      locale,
+    )
   }
   if (measurement.kind === 'angle') {
     return formatAngleRadians(measurementAngle(...measurement.points))
@@ -309,6 +317,7 @@ function formatMeasurement(
       measurementPerimeter(measurement.base),
       unit,
       metricNotation,
+      locale,
     )}`
   }
   return `V ${formatVolumeLabel(measurementPrismVolume(measurement.base, measurement.extrusion), unit)}`
@@ -332,6 +341,7 @@ export const MeasurementRenderer = ({ node }: { node: MeasurementNode }) => {
   const handlers = useNodeEvents(node, 'measurement')
   const showMeasurements = useViewer((state) => state.showMeasurements)
   const unit = useViewer((state) => state.unit)
+  const locale = useLocale()
   const metricNotation = useViewer((state) => state.metricNotation)
   const active = useViewer(
     (state) =>
@@ -358,9 +368,9 @@ export const MeasurementRenderer = ({ node }: { node: MeasurementNode }) => {
   })
   const data = buildRenderData(resolved.payload)
   const label = useMemo(() => {
-    const value = formatMeasurement(resolved.payload, unit, metricNotation)
+    const value = formatMeasurement(resolved.payload, unit, metricNotation, locale)
     return resolved.dangling.length > 0 ? `Unlinked · ${value}` : value
-  }, [metricNotation, resolved, unit])
+  }, [locale, metricNotation, resolved, unit])
   const color = measurementPresentationColor(resolved.dangling.length > 0, active)
   const lineMaterial = useMemo(
     () =>

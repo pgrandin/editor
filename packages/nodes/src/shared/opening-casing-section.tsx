@@ -43,7 +43,7 @@ export function OpeningCasingSection({
     () => openingCasingFaceLabels(nodes, { parentId, roofSegmentId }),
     [nodes, parentId, roofSegmentId],
   )
-  const imperial = useViewer((state) => state.unit) === 'imperial'
+  const imperial = useViewer((state) => state.unit) !== 'metric'
   if (!cased) return null
   const faceA = node.casingFaceA === true
   const faceB = node.casingFaceB === true
